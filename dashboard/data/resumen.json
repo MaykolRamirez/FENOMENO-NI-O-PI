@@ -1,0 +1,16 @@
+{
+ "corte": "2026-11-03 17:39",
+ "titular": "Niño 1+2 en +5.4 °C (semana del 2026-10-28). 2 de 26 puntos con riesgo alto o muy alto por lluvia: Tumbes, Piura.",
+ "niveles": {
+  "Bajo": 12,
+  "Moderado": 12,
+  "Alto": 1,
+  "Muy alto": 1
+ },
+ "lluvia_15d_costa_norte_mm": 102.2,
+ "normal_15d_costa_norte_mm": 2.7,
+ "lluvia_max_dia": {
+  "punto": "Tumbes",
+  "mm": 75.2
+ }
+}
