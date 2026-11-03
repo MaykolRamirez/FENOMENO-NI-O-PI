@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitor El Niño Perú</title>
+<meta name="description" content="Lluvias de los últimos 15 días, temperatura del mar y riesgo por lluvia intensa (huaicos e inundaciones) durante El Niño en el Perú.">
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#fff; --ink:#1b2430; --muted:#5b6675; --line:#dfe3e9; --accent:#0b6bcb;
+  --r0:#d6e6f5; --r1:#f3c85a; --r2:#ea7a3a; --r3:#b3261e; --warm:#c8461e; --cool:#0b6bcb;
+  --rain0:#f1f5fa; --rain1:#c6dcf2; --rain2:#7fb2e3; --rain3:#2f7fc9; --rain4:#14478a;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141b; --panel:#171e28; --ink:#e7ecf2; --muted:#9aa6b6; --line:#2a3442; --accent:#5aa7f0;
+  --r0:#27455f; --r1:#c79a2c; --r2:#e0793a; --r3:#e5484d; --warm:#ff7a4d; --cool:#5aa7f0;
+  --rain0:#1b2430; --rain1:#244a70; --rain2:#2f78b8; --rain3:#5aa7f0; --rain4:#a9d2f8;}}
+:root[data-theme="dark"]{
+  --bg:#0f141b; --panel:#171e28; --ink:#e7ecf2; --muted:#9aa6b6; --line:#2a3442; --accent:#5aa7f0;
+  --r0:#27455f; --r1:#c79a2c; --r2:#e0793a; --r3:#e5484d; --warm:#ff7a4d; --cool:#5aa7f0;
+  --rain0:#1b2430; --rain1:#244a70; --rain2:#2f78b8; --rain3:#5aa7f0; --rain4:#a9d2f8;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:20px 16px 0;max-width:1180px;margin:0 auto}
+h1{margin:0;font-size:1.6rem;letter-spacing:-.01em}
+.sub{color:var(--muted);margin:2px 0 0;font-size:.9rem}
+main{max-width:1180px;margin:0 auto;padding:0 16px 48px}
+nav{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin:16px 0 18px;position:sticky;top:0;background:var(--bg);z-index:5}
+nav a{padding:10px 14px;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;font-weight:600;font-size:.92rem}
+nav a.on{color:var(--ink);border-color:var(--accent)}
+section{display:none}section.on{display:block}
+.banner{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--warm);border-radius:8px;padding:14px 16px;font-size:1.05rem;font-weight:600}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:14px 0}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.kpi b{display:block;font-size:1.7rem;line-height:1.15;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:.82rem}
+.grid2{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:1.05rem}
+.card p.n{margin:0 0 10px;color:var(--muted);font-size:.85rem}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.82rem;font-variant-numeric:tabular-nums}
+th,td{padding:4px 6px;text-align:right;white-space:nowrap}
+th{color:var(--muted);font-weight:600;border-bottom:1px solid var(--line)}
+td:first-child,th:first-child{text-align:left;position:sticky;left:0;background:var(--panel)}
+td.c{text-align:center;min-width:34px;border:1px solid var(--panel)}
+.leg{display:flex;gap:12px;flex-wrap:wrap;font-size:.8rem;color:var(--muted);margin-top:8px}
+.leg i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.pill{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.75rem;font-weight:700;color:#fff}
+.lv-Bajo{background:#5f87ad}.lv-Moderado{background:#a07a12}.lv-Alto{background:#c2531b}.lv-Muy{background:#b3261e}
+.rank{display:grid;grid-template-columns:1fr 70px;gap:4px 10px;align-items:center;font-size:.88rem}
+.bar{height:9px;border-radius:5px;background:var(--line);overflow:hidden;grid-column:1}
+.bar i{display:block;height:100%}
+svg text{fill:var(--ink);font-family:inherit}
+.muted{color:var(--muted)}
+#mapa{width:100%;height:auto;display:block}
+#mapa path{stroke:var(--panel);stroke-width:.6;cursor:pointer}
+#mapa path:hover{stroke:var(--ink);stroke-width:1.3}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);padding:6px 9px;border-radius:6px;font-size:.8rem;display:none;z-index:10;max-width:240px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.pc{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px}
+.pc h3{margin:0 0 2px;font-size:.98rem;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.pc small{color:var(--muted)}
+.mini{display:flex;gap:10px;font-size:.78rem;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+.warn{font-size:.85rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px;margin:10px 0}
+.ctl{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.ctl select{background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.seg button{background:none;border:0;color:var(--muted);padding:6px 12px;cursor:pointer;font-size:.85rem;font-weight:600}
+.seg button.on{background:var(--accent);color:#fff}
+#comp{position:relative;width:100%;max-width:760px;aspect-ratio:1/1;margin:0 auto;overflow:hidden;border-radius:8px;background:#000;touch-action:none}
+#comp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#imgB{clip-path:inset(0 0 0 50%)}
+#cut{position:absolute;top:0;bottom:0;left:50%;width:2px;background:#fff;box-shadow:0 0 4px #0008;pointer-events:none}
+.lab{position:absolute;top:8px;background:#000a;color:#fff;padding:3px 8px;border-radius:5px;font-size:.78rem}
+.lab.l{left:8px}.lab.r{right:8px}
+#rng{width:100%;max-width:760px;display:block;margin:8px auto 0}
+footer{max-width:1180px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.82rem}
+button.th{float:right;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:.8rem}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<header>
+  <button class="th" id="tema" aria-label="Cambiar tema claro u oscuro">Tema</button>
+  <h1>Monitor El Niño Perú</h1>
+  <p class="sub" id="corte">Cargando datos…</p>
+</header>
+<main>
+<nav id="nav">
+  <a href="#resumen">Situación</a>
+  <a href="#lluvias">Lluvias 15 días</a>
+  <a href="#riesgo">Huaicos e inundaciones</a>
+  <a href="#satelite">Satélite antes/ahora</a>
+  <a href="#mar">Mar y El Niño</a>
+  <a href="#metodo">Método y fuentes</a>
+</nav>
+
+<section id="resumen">
+  <div class="banner" id="titular"></div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid2">
+    <div class="card"><h2>Riesgo por lluvia intensa hoy</h2><p class="n">Color = nivel del punto vigilado de cada departamento (el más alto si hay dos). Pasa el cursor para ver el detalle.</p>
+      <svg id="mapa" viewBox="0 0 400 560" role="img" aria-label="Mapa del Perú con el nivel de riesgo por departamento"></svg>
+      <div class="leg" id="legmapa"></div></div>
+    <div>
+      <div class="card"><h2>Puntos con mayor riesgo</h2><p class="n">Índice 0–100 (ver Método). Incluye lo observado y el pronóstico de 3 días.</p><div class="rank" id="rank"></div></div>
+      <div class="card"><h2>Lluvia acumulada vs lo normal</h2><p class="n">Últimos 15 días frente al promedio 2010–2025 de la misma fecha.</p><div class="rank" id="anom"></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="lluvias">
+  <div class="card"><h2>Lluvia diaria, últimos 15 días y pronóstico (mm)</h2>
+    <p class="n">Cada celda es un día. El color se escala con la lluvia extrema habitual de ese punto (p99 de sus días con lluvia), así un chubasco en Piura pesa distinto que en Iquitos.</p>
+    <div class="tbl"><table id="tabla"></table></div>
+    <div class="leg" id="legl"></div></div>
+</section>
+
+<section id="riesgo">
+  <div class="warn">Es un <b>indicador orientativo</b> construido con lluvia modelada (Open-Meteo/ERA5). No reemplaza los avisos de SENAMHI, INDECI ni del COEN. Mide lluvia intensa; un huaico además depende de la quebrada, la pendiente y el suelo.</div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section id="satelite">
+  <div class="card"><h2>El terreno antes y ahora (Sentinel-2)</h2>
+    <p class="n">Arrastra la barra: a la izquierda, la misma zona un año antes; a la derecha, la imagen más reciente con pocas nubes. Compara colores para ver dónde hay más vegetación, agua o suelo cambiado por las lluvias.</p>
+    <div class="ctl"><label>Zona <select id="szona"></select></label>
+      <span class="seg" id="svista"><button data-v="rgb" class="on">Color real</button><button data-v="ndvi">Vegetación</button><button data-v="agua">Agua</button></span></div>
+    <div id="comp"><img id="imgA" alt="Imagen anterior"><img id="imgB" alt="Imagen reciente"><div id="cut"></div>
+      <span class="lab l" id="labA"></span><span class="lab r" id="labB"></span></div>
+    <input type="range" id="rng" min="0" max="100" value="50" aria-label="Deslizar entre antes y ahora">
+    <div class="leg" id="slev"></div>
+    <p class="warn" id="snota"></p></div>
+</section>
+
+<section id="mar">
+  <div class="grid2">
+    <div class="card"><h2>Anomalía semanal Niño 1+2 (°C)</h2><p class="n">Frente a la costa norte. Se considera «El Niño» sobre +1 °C. Fuente NOAA CPC.</p><svg id="gnino" viewBox="0 0 560 280" role="img" aria-label="Serie de la anomalía Niño 1+2"></svg><div class="leg" id="legn"></div></div>
+    <div class="card"><h2>Comparación con episodios anteriores</h2><p class="n">Máxima anomalía semanal Niño 1+2 de cada episodio fuerte.</p><svg id="gep" viewBox="0 0 400 240" role="img" aria-label="Máximos por episodio"></svg></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>Temperatura del mar frente a la costa (°C)</h2><p class="n">Promedio diario a pocos km de cada puerto, últimos 30 días.</p><div class="tbl"><table id="puertos"></table></div></div>
+    <div class="card"><h2>Índice Costero El Niño (ICEN)</h2><p class="n">Últimos 24 meses (IGP/ENFEN). El último valor es provisional.</p><svg id="gicen" viewBox="0 0 400 240" role="img" aria-label="ICEN mensual"></svg></div>
+  </div>
+</section>
+
+<section id="metodo">
+  <div class="card"><h2>Qué es este tablero</h2>
+    <p>Un monitor diario de cómo golpea El Niño al Perú: cuánto ha llovido en los últimos 15 días, cuánto se aleja de lo normal, qué se espera en los próximos días y cómo está el mar frente a la costa. Se actualiza solo cada día. Es una herramienta independiente del proyecto IAPN del curso PEU-CD (INEI) y <b>no es un producto oficial</b> del Estado.</p></div>
+  <div class="card"><h2>Fuentes</h2>
+    <ul><li><b>Lluvia (15 días y pronóstico de 5):</b> <a href="https://open-meteo.com/">Open-Meteo</a>, en 26 puntos (capitales departamentales). Es lluvia de modelo, no de pluviómetro: puede subestimar chubascos locales.</li>
+    <li><b>Climatología:</b> Open-Meteo Archive (ERA5), 2010–2025, para cada punto.</li>
+    <li><b>Temperatura del mar:</b> Open-Meteo Marine, 8 puertos.</li>
+    <li><b>Niño 1+2:</b> NOAA Climate Prediction Center, anomalía semanal. <b>ICEN:</b> IGP / ENFEN.</li>
+    <li><b>Límites:</b> departamentos del INEI (<a href="https://github.com/juaneladio/peru-geojson">peru-geojson</a>).</li></ul></div>
+  <div class="card"><h2>Índice de riesgo por lluvia intensa (0–100)</h2>
+    <p>Mezcla tres señales respecto de lo normal en cada punto, cada una acotada entre 0 y 1:</p>
+    <ul><li><b>Intensidad reciente (40 %):</b> la mayor lluvia diaria de los últimos 3 días ÷ p99 de los días con lluvia de ese punto.</li>
+    <li><b>Pronóstico (35 %):</b> la mayor lluvia diaria prevista en los próximos 3 días ÷ el mismo p99.</li>
+    <li><b>Saturación (25 %):</b> lluvia de 15 días ÷ el doble del acumulado normal de esa fecha (mínimo 20 mm).</li></ul>
+    <p>Niveles: Bajo &lt; 25, Moderado 25–49, Alto 50–74, Muy alto ≥ 75. El p99 se fija en al menos 5 mm para que una llovizna en el desierto no dispare la alerta.</p></div>
+  <div class="card"><h2>Limitaciones</h2>
+    <ul><li>Solo 26 puntos: una quebrada concreta puede estar peor que su capital.</li>
+    <li>No incluye reportes oficiales de emergencias (INDECI/COEN) ni deslizamientos observados.</li>
+    <li>Los pesos del índice son un criterio de trabajo, aún sin calibrar contra eventos pasados.</li>
+    <li>El último valor del ICEN y el de hoy en lluvia (parcial) pueden cambiar.</li></ul></div>
+</section>
+</main>
+<footer>Proyecto del Programa de Extensión Universitaria: Ciencia del Dato (INEI, 2026). Código en el repositorio del proyecto, carpeta <code>src/clima_nino.py</code> y <code>dashboard/</code>. Inspirado en el <a href="https://alexanderquispe.github.io/incendios-peru/">Monitor de incendios del Perú</a>.</footer>
+<div id="tip"></div>
+
+<script>
+const $=s=>document.querySelector(s), tip=$('#tip');
+const NS='http://www.w3.org/2000/svg';
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const LV={Bajo:'--r0','Moderado':'--r1','Alto':'--r2','Muy alto':'--r3'};
+const lvClass=n=>'lv-'+n.split(' ')[0];
+const f1=x=>x==null?'–':x.toLocaleString('es-PE',{maximumFractionDigits:1,minimumFractionDigits:1});
+const f0=x=>x==null?'–':Math.round(x).toLocaleString('es-PE');
+const fm=s=>{const d=new Date(s+'T12:00:00');return d.toLocaleDateString('es-PE',{month:'short',year:'2-digit'})};
+const fd=s=>{const d=new Date(s+'T12:00:00');return d.toLocaleDateString('es-PE',{day:'numeric',month:'short'})};
+let D={};
+
+function tabs(){
+  const ids=[...document.querySelectorAll('section')].map(s=>s.id);
+  const h=(location.hash||'#resumen').slice(1); const id=ids.includes(h)?h:'resumen';
+  ids.forEach(i=>$('#'+i).classList.toggle('on',i===id));
+  document.querySelectorAll('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+id));
+}
+addEventListener('hashchange',tabs);
+
+$('#tema').onclick=()=>{
+  const r=document.documentElement,dark=getComputedStyle(r).getPropertyValue('--bg').trim()==='#0f141b';
+  r.dataset.theme=dark?'light':'dark'; try{localStorage.setItem('tema',r.dataset.theme)}catch(e){} if(D.p)pintar();
+};
+try{const t=localStorage.getItem('tema');if(t)document.documentElement.dataset.theme=t}catch(e){}
+
+function mostrarTip(e,html){tip.innerHTML=html;tip.style.display='block';tip.style.left=Math.min(e.clientX+12,innerWidth-250)+'px';tip.style.top=(e.clientY+14)+'px'}
+const ocultarTip=()=>tip.style.display='none';
+
+function escalaLluvia(mm,p99){
+  if(mm<0.5)return css('--rain0');
+  const r=mm/Math.max(p99,5);
+  return r<0.15?css('--rain1'):r<0.4?css('--rain2'):r<0.8?css('--rain3'):css('--rain4');
+}
+function textoSobre(color){ // negro/blanco según luminosidad
+  const c=document.createElement('canvas').getContext('2d');c.fillStyle=color;const h=c.fillStyle;
+  const n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;return (0.299*r+0.587*g+0.114*b)>150?'#14202e':'#ffffff';
+}
+
+function kpis(){
+  const u=D.m.ultimo,p=D.p,r=D.r;
+  const alto=p.filter(x=>x.indice>=50).length;
+  const top=[...p].sort((a,b)=>b.acum15_mm-a.acum15_mm)[0];
+  const ref=D.m.puertos.find(x=>x.puerto==='Paita')||D.m.puertos[0];
+  const rec=D.m.episodios_max, max97=rec['1997-98'];
+  const k=[
+    [`${u.anomalia>0?'+':''}${f1(u.anomalia)} °C`,`Anomalía Niño 1+2, semana del ${fd(u.semana)}. Máximo de 1997–98: +${f1(max97)} °C`],
+    [`${alto} de ${p.length}`,'Puntos con riesgo alto o muy alto por lluvia (observado + 3 días)'],
+    [`${f0(top.acum15_mm)} mm`,`Mayor lluvia en 15 días: ${top.punto} (normal ${f0(top.normal15_mm)} mm)`],
+    [`${f1(ref.actual)} °C`,`Mar en ${ref.puerto} hoy, ${ref.cambio_7d>=0?'+':''}${f1(ref.cambio_7d)} °C en 7 días`],
+  ];
+  $('#kpis').innerHTML=k.map(([a,b])=>`<div class="kpi"><b>${a}</b><span>${b}</span></div>`).join('');
+}
+
+function mapa(){
+  const svg=$('#mapa'); svg.innerHTML='';
+  const k=Math.cos(9*Math.PI/180), W=400, H=560;
+  const xs=[],ys=[]; const feats=D.g.features;
+  const anillos=f=>f.geometry.type==='Polygon'?[f.geometry.coordinates]:f.geometry.coordinates;
+  feats.forEach(f=>anillos(f).forEach(poly=>poly[0].forEach(([x,y])=>{xs.push(x);ys.push(y)})));
+  const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+  const s=Math.min((W-10)/((x1-x0)*k),(H-10)/(y1-y0));
+  const px=x=>5+(x-x0)*k*s, py=y=>5+(y1-y)*s;
+  const porDep={};D.p.forEach(p=>{if(!porDep[p.departamento]||p.indice>porDep[p.departamento].indice)porDep[p.departamento]=p});
+  feats.forEach(f=>{
+    const d=anillos(f).map(poly=>poly.map(r=>'M'+r.map(([x,y])=>px(x).toFixed(1)+' '+py(y).toFixed(1)).join('L')+'Z').join('')).join('');
+    const nom=f.properties.NOMBDEP, p=porDep[nom]||(nom==='CALLAO'?porDep['LIMA']:null);
+    const path=document.createElementNS(NS,'path');path.setAttribute('d',d);
+    path.setAttribute('fill',p?css(LV[p.nivel]):css('--line'));
+    path.addEventListener('mousemove',e=>mostrarTip(e,p?`<b>${p.punto}</b> · ${p.nivel} (${f0(p.indice)})<br>15 días: ${f0(p.acum15_mm)} mm (normal ${f0(p.normal15_mm)})<br>Máx. diario: ${f0(p.max_dia_mm)} mm`:nom));
+    path.addEventListener('mouseleave',ocultarTip);
+    path.addEventListener('click',()=>{location.hash='#riesgo'});
+    svg.appendChild(path);
+  });
+  D.p.forEach(p=>{
+    const c=document.createElementNS(NS,'circle');c.setAttribute('cx',px(p.lon));c.setAttribute('cy',py(p.lat));
+    c.setAttribute('r',2.2);c.setAttribute('fill',css('--ink'));c.setAttribute('opacity','.55');c.style.pointerEvents='none';svg.appendChild(c);
+  });
+  $('#legmapa').innerHTML=Object.keys(LV).map(n=>`<span><i style="background:${css(LV[n])}"></i>${n}</span>`).join('');
+}
+
+function ranking(){
+  const top=[...D.p].sort((a,b)=>b.indice-a.indice).slice(0,8);
+  $('#rank').innerHTML=top.map(p=>`<div>${p.punto} <span class="muted">· ${p.region}</span></div><div style="text-align:right"><span class="pill ${lvClass(p.nivel)}">${f0(p.indice)}</span></div><div class="bar"><i style="width:${p.indice}%;background:${css(LV[p.nivel])}"></i></div><div></div>`).join('');
+  const conAnom=D.p.filter(p=>p.anomalia_pct!=null).sort((a,b)=>b.anomalia_pct-a.anomalia_pct).slice(0,8);
+  const mx=Math.max(...conAnom.map(p=>Math.abs(p.anomalia_pct)),100);
+  $('#anom').innerHTML=conAnom.map(p=>`<div>${p.punto} <span class="muted">· ${f0(p.acum15_mm)} mm vs ${f0(p.normal15_mm)}</span></div><div style="text-align:right;font-variant-numeric:tabular-nums">${p.anomalia_pct>0?'+':''}${f0(p.anomalia_pct)} %</div><div class="bar"><i style="width:${Math.min(100,Math.abs(p.anomalia_pct)/mx*100)}%;background:${p.anomalia_pct>=0?css('--cool'):css('--warm')}"></i></div><div></div>`).join('')
+   +`<div class="muted" style="grid-column:1/3;font-size:.8rem;margin-top:4px">Solo puntos con lluvia normal ≥ 5 mm en la ventana; en zonas desérticas la comparación en % no es estable.</div>`;
+}
+
+function tabla(){
+  const p=[...D.p].sort((a,b)=>b.acum15_mm-a.acum15_mm);
+  const f=p[0].fechas, pf=p[0].pronostico_fechas;
+  let h=`<tr><th>Punto</th>${f.map(x=>`<th>${fd(x).replace(' ','<br>')}</th>`).join('')}<th style="border-left:2px solid var(--line)"></th>${pf.map(x=>`<th class="muted">${fd(x).replace(' ','<br>')}</th>`).join('')}<th>15 d</th><th>Normal</th></tr>`;
+  p.forEach(x=>{
+    const cel=(mm,fut)=>{const c=escalaLluvia(mm,x.p99_mm);return `<td class="c" style="background:${c};color:${textoSobre(c)};${fut?'opacity:.7':''}" title="${x.punto}: ${f1(mm)} mm">${mm>=0.5?f0(mm):''}</td>`};
+    h+=`<tr><td>${x.punto}</td>${x.lluvia_mm.map(m=>cel(m,0)).join('')}<td style="border-left:2px solid var(--line)"></td>${x.pronostico_mm.map(m=>cel(m,1)).join('')}<td><b>${f0(x.acum15_mm)}</b></td><td class="muted">${f0(x.normal15_mm)}</td></tr>`;
+  });
+  $('#tabla').innerHTML=h;
+  $('#legl').innerHTML=[['--rain0','&lt; 0,5 mm'],['--rain1','llovizna'],['--rain2','moderada'],['--rain3','fuerte'],['--rain4','extrema (≥ 80 % del p99)']].map(([c,t])=>`<span><i style="background:${css(c)}"></i>${t}</span>`).join('')+'<span>Columnas atenuadas = pronóstico</span>';
+}
+
+function spark(vals,w=90,h=22,color){
+  const mx=Math.max(...vals,1), n=vals.length;
+  const pts=vals.map((v,i)=>`${(i/(n-1)*w).toFixed(1)},${(h-1-v/mx*(h-3)).toFixed(1)}`).join(' ');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="1.6"/></svg>`;
+}
+function cards(){
+  const p=[...D.p].sort((a,b)=>b.indice-a.indice);
+  $('#cards').innerHTML=p.map(x=>`<div class="pc"><h3>${x.punto}<span class="pill ${lvClass(x.nivel)}">${x.nivel} · ${f0(x.indice)}</span></h3>
+    <small>${x.region} · ${f0(x.altitud_m)} m</small>
+    <div style="margin:6px 0 2px">${spark(x.lluvia_mm.concat(x.pronostico_mm),230,30,css(LV[x.nivel]==='--r0'?'--cool':LV[x.nivel]))}</div>
+    <div class="mini"><span>Intensidad ${f0(x.reciente*100)}%</span><span>Pronóstico ${f0(x.pronostico*100)}%</span><span>Saturación ${f0(x.saturacion*100)}%</span></div>
+    <div class="mini"><span>15 d: <b>${f0(x.acum15_mm)} mm</b></span><span>Máx. día: ${f0(x.max_dia_mm)} mm</span><span>Próx. 3 d: ${f0(x.pronostico_mm.slice(0,3).reduce((a,b)=>a+b,0))} mm</span></div></div>`).join('');
+}
+
+function ejes(svg,W,H,m,x0,x1,y0,y1,ticks,fmtY){
+  let s='';
+  ticks.forEach(t=>{const y=m.t+(y1-t)/(y1-y0)*(H-m.t-m.b);s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${y}" y2="${y}" stroke="${css('--line')}"/><text x="${m.l-6}" y="${y+4}" text-anchor="end" font-size="11" fill="${css('--muted')}">${fmtY(t)}</text>`});
+  return s;
+}
+function graficoNino(){
+  const n=D.m.nino12,svg=$('#gnino'),W=560,H=280,m={l:38,r:12,t:14,b:28};
+  const ys=n.anomalia,y0=Math.min(-1,Math.min(...ys)-.3),y1=Math.max(...ys)+.6,N=ys.length;
+  const X=i=>m.l+i/(N-1)*(W-m.l-m.r),Y=v=>m.t+(y1-v)/(y1-y0)*(H-m.t-m.b);
+  let s=ejes(svg,W,H,m,0,N,y0,y1,[...Array(Math.ceil(y1)-Math.floor(y0)+1).keys()].map(i=>Math.floor(y0)+i).filter(v=>v>=y0&&v<=y1),v=>(v>0?'+':'')+v);
+  s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${Y(1)}" y2="${Y(1)}" stroke="${css('--warm')}" stroke-dasharray="4 3"/><text x="${W-m.r}" y="${Y(1)-4}" text-anchor="end" font-size="11" fill="${css('--warm')}">umbral El Niño +1 °C</text>`;
+  s+=`<polyline fill="none" stroke="${css('--warm')}" stroke-width="2" points="${ys.map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`;
+  [0,Math.floor(N/4),Math.floor(N/2),Math.floor(3*N/4),N-1].forEach(i=>s+=`<text x="${X(i)}" y="${H-8}" text-anchor="${i===N-1?'end':i===0?'start':'middle'}" font-size="11" fill="${css('--muted')}">${fm(n.semanas[i])}</text>`);
+  const l=N-1;s+=`<circle cx="${X(l)}" cy="${Y(ys[l])}" r="4" fill="${css('--warm')}"/><text x="${X(l)-6}" y="${Y(ys[l])-8}" text-anchor="end" font-size="12" font-weight="700">${ys[l]>0?'+':''}${f1(ys[l])} °C</text>`;
+  svg.innerHTML=s;
+  $('#legn').innerHTML=`<span>Últimos 2 años, semanal. Valor actual en negrita.</span>`;
+}
+function graficoEpisodios(){
+  const e=[...Object.entries(D.m.episodios_max).sort((a,b)=>parseInt(a[0])-parseInt(b[0])),['Hoy',D.m.ultimo.anomalia]];const svg=$('#gep'),W=400,H=240,m={l:36,r:10,t:16,b:28};
+  const k=e.map(x=>x[0]),mx=Math.max(...e.map(x=>x[1]))+.8,bw=(W-m.l-m.r)/k.length;
+  let s=ejes(svg,W,H,m,0,k.length,0,mx,[0,1,2,3,4,5,6].filter(v=>v<=mx),v=>v);
+  k.forEach((n,i)=>{const v=e[i][1],y=m.t+(mx-v)/mx*(H-m.t-m.b),hoy=n==='Hoy';
+    s+=`<rect x="${m.l+i*bw+bw*.18}" y="${y}" width="${bw*.64}" height="${H-m.b-y}" rx="2" fill="${hoy?css('--warm'):css('--cool')}" opacity="${hoy?1:.7}"/><text x="${m.l+i*bw+bw/2}" y="${y-4}" text-anchor="middle" font-size="12" font-weight="700">${f1(v)}</text><text x="${m.l+i*bw+bw/2}" y="${H-10}" text-anchor="middle" font-size="11" fill="${css('--muted')}">${n}</text>`});
+  svg.innerHTML=s;
+}
+function graficoIcen(){
+  const ic=D.m.icen,svg=$('#gicen'),W=400,H=240,m={l:36,r:10,t:16,b:28},v=ic.valor,N=v.length;
+  const y0=Math.min(-1,Math.min(...v)-.3),y1=Math.max(...v)+.5,bw=(W-m.l-m.r)/N;
+  const Y=x=>m.t+(y1-x)/(y1-y0)*(H-m.t-m.b);
+  let s=ejes(svg,W,H,m,0,N,y0,y1,[...Array(Math.ceil(y1)-Math.floor(y0)+1).keys()].map(i=>Math.floor(y0)+i).filter(t=>t>=y0&&t<=y1),t=>t);
+  v.forEach((x,i)=>{s+=`<rect x="${m.l+i*bw+1}" y="${Math.min(Y(x),Y(0))}" width="${bw-2}" height="${Math.abs(Y(x)-Y(0))}" fill="${x>=0?css('--warm'):css('--cool')}" opacity=".85"><title>${ic.meses[i]}: ${x}</title></rect>`});
+  [0,Math.floor(N/2),N-1].forEach(i=>s+=`<text x="${m.l+i*bw+bw/2}" y="${H-8}" text-anchor="${i===N-1?'end':i===0?'start':'middle'}" font-size="11" fill="${css('--muted')}">${ic.meses[i]}</text>`);
+  svg.innerHTML=s;
+}
+function puertos(){
+  let h='<tr><th>Puerto</th><th>Hoy</th><th>Cambio 7 d</th><th>30 días</th></tr>';
+  D.m.puertos.forEach(q=>h+=`<tr><td>${q.puerto}</td><td><b>${f1(q.actual)}</b></td><td style="color:${q.cambio_7d>0.2?css('--warm'):q.cambio_7d<-0.2?css('--cool'):'inherit'}">${q.cambio_7d>0?'+':''}${f1(q.cambio_7d)}</td><td>${spark(q.sst.map(v=>v-Math.min(...q.sst)),90,22,css('--warm'))}</td></tr>`);
+  $('#puertos').innerHTML=h;
+}
+
+function pintar(){kpis();mapa();ranking();tabla();cards();graficoNino();graficoEpisodios();graficoIcen();puertos()}
+
+Promise.all(['lluvia','mar','resumen'].map(n=>fetch('data/'+n+'.json').then(r=>r.json())).concat(fetch('data/departamentos.geojson').then(r=>r.json())))
+.then(([p,m,r,g])=>{D={p,m,r,g};
+  $('#corte').textContent='Corte: '+r.corte+' (hora de Lima) · se actualiza cada día';
+  $('#titular').textContent=r.titular; pintar(); tabs();
+}).catch(e=>{$('#corte').textContent='No se pudieron cargar los datos: '+e.message});
+
+let SAT=null;
+function satInit(){
+  fetch('data/sat/satelite.json').then(r=>r.json()).then(m=>{
+    SAT=m; $('#szona').innerHTML=m.zonas.map(z=>`<option value="${z.id}">${z.nombre} · ${z.nota}</option>`).join('');
+    $('#szona').onchange=satPintar;
+    $('#svista').onclick=e=>{if(!e.target.dataset.v)return;[...$('#svista').children].forEach(b=>b.classList.toggle('on',b===e.target));satPintar()};
+    $('#rng').oninput=e=>{const v=e.target.value;$('#imgB').style.clipPath=`inset(0 0 0 ${v}%)`;$('#cut').style.left=v+'%'};
+    satPintar();
+  }).catch(()=>{$('#snota').textContent='Las imágenes satelitales aún no están disponibles.'});
+}
+function satPintar(){
+  const z=SAT.zonas.find(x=>x.id===$('#szona').value)||SAT.zonas[0], v=document.querySelector('#svista .on').dataset.v;
+  const ext=v==='rgb'?'jpg':'jpg';
+  $('#imgA').src=`data/sat/${z.id}_antes_${v}.${ext}`;$('#imgB').src=`data/sat/${z.id}_ahora_${v}.${ext}`;
+  const a=z.escenas.antes,b=z.escenas.ahora;
+  $('#labA').textContent=`Antes · ${fd(a.fecha)} ${a.fecha.slice(0,4)} (${a.nubes} % nubes)`;
+  $('#labB').textContent=`Ahora · ${fd(b.fecha)} ${b.fecha.slice(0,4)} (${b.nubes} % nubes)`;
+  const L={rgb:'Color natural. Suelo húmedo o cubierto de agua se ve más oscuro; el agua con sedimento, marrón.',
+    ndvi:'Vegetación (NDVI): rojo = suelo desnudo o sin plantas, verde oscuro = vegetación densa.',
+    agua:'Agua (NDWI): azul oscuro = agua o suelo muy húmedo, amarillo claro = suelo seco.'};
+  $('#slev').innerHTML=`<span>${L[v]}</span>`;
+  $('#snota').textContent=`Sentinel-2 L2A (Copernicus) vía Microsoft Planetary Computer, 10 m. Referencia: la misma época del año anterior. La imagen reciente es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes; revisa la fecha. Las nubes pueden tapar zonas.`;
+}
+satInit();
+tabs();
+</script>
+</body>
+</html>
