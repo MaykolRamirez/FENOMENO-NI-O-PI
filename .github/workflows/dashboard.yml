@@ -9,7 +9,7 @@ on:
     - cron: "30 11 * * *"
   push:
     branches: [main]
-    paths: ["dashboard/**", "src/clima_nino.py", ".github/workflows/dashboard.yml"]
+    paths: ["dashboard/**", "src/**", "tests/**", ".github/workflows/dashboard.yml"]
   workflow_dispatch:
 
 permissions:
@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Instalar librerías
-        run: pip install -q pandas numpy requests
+        run: pip install -q pandas numpy requests pytest
       - name: Temperatura del mar (NOAA e ICEN)
         run: cd src && python temperatura_mar.py
         continue-on-error: true
@@ -42,6 +42,8 @@ jobs:
       - name: Imágenes Sentinel-2 antes y ahora
         run: cd src && python imagenes_satelite.py
         continue-on-error: true
+      - name: Pruebas
+        run: python -m pytest tests -q
       - name: Armar el sitio
         run: |
           mkdir _site
