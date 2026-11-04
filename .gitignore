@@ -17,3 +17,6 @@ _site/
 # Sistema
 .DS_Store
 Thumbs.db
+
+# Datos crudos grandes (edificaciones, DEM); se regeneran con src/datos_tumbes.py
+data/crudo/
