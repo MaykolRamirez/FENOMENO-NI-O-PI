@@ -1,14 +1,19 @@
 # Python
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
 .venv/
 venv/
+
+# R / editores
+.Rhistory
+.RData
+.vscode/
+.idea/
+.claude/
+
+# Sitio armado por el workflow (se genera en cada publicación)
+_site/
 
 # Sistema
 .DS_Store
 Thumbs.db
-
-# Los datos de este proyecto son pequeños (CSV de pocos MB) y SÍ se suben,
-# incluidos los vintages: son la constancia de qué información existía en cada fecha.
-# Si algún archivo supera 50 MB, agregarlo aquí y documentar cómo regenerarlo.
