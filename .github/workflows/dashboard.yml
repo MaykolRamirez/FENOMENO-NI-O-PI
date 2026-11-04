@@ -42,6 +42,9 @@ jobs:
       - name: Imágenes Sentinel-2 antes y ahora
         run: cd src && python imagenes_satelite.py
         continue-on-error: true
+      - name: Agua con radar Sentinel-1
+        run: cd src && python agua_radar.py
+        continue-on-error: true
       - name: Pruebas
         run: python -m pytest tests -q
       - name: Armar el sitio
