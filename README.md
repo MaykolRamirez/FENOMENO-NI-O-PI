@@ -55,7 +55,7 @@ Niveles: **Bajo** < 25 · **Moderado** 25–49 · **Alto** 50–74 · **Muy alto
 - **Es un indicador orientativo.** Mide lluvia intensa, no huaicos observados. Un huaico además depende de la quebrada, la pendiente y el suelo.
 - **Los pesos del índice no están calibrados** contra eventos pasados (2017, 2023). En zonas áridas, como Lima, puede marcar "Moderado" con lluvias pequeñas.
 - **La lluvia es de modelo**, no de pluviómetro: puede subestimar chubascos locales.
-- **Solo 26 puntos** (capitales departamentales): una quebrada concreta puede estar peor que su capital.
+- **Solo 26 puntos** (capitales departamentales, Callao y Chimbote): una quebrada concreta puede estar peor que su capital.
 - **No incluye reportes oficiales** de emergencias (INDECI/COEN) ni deslizamientos observados.
 - **La imagen satelital "ahora"** es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes. Cada imagen muestra su fecha y su porcentaje de nubes. La costa nublada puede tapar zonas.
 - **"Antes" es la misma época del año anterior**, no necesariamente un estado previo al evento.
@@ -67,6 +67,7 @@ Niveles: **Bajo** < 25 · **Moderado** 25–49 · **Alto** 50–74 · **Muy alto
 FENOMENO-NI-O-PI/
 ├── README.md
 ├── LICENSE
+├── .gitignore
 ├── requirements.txt
 ├── .github/workflows/
 │   └── dashboard.yml          Actualiza datos y publica el sitio cada día
@@ -78,6 +79,8 @@ FENOMENO-NI-O-PI/
 ├── data/
 │   ├── raw/                   nino12_semanal.csv, icen.csv
 │   └── clima/                 climatologia_precip.json (caché de lo "normal")
+├── docs/
+│   └── metodologia.md         Definiciones operativas, fórmula del índice y pendientes
 └── dashboard/                 Lo que se publica en la web
     ├── index.html
     └── data/                  lluvia.json, mar.json, resumen.json,
