@@ -68,9 +68,20 @@ saturación = min(1, acumulado de 15 días ÷ máx(2 × normal de esa fecha, 20 
 - **Exageración vertical:** se elige según el desnivel de la zona (×8 si es menor de 400 m, ×1,5 si supera 3.500 m) y se puede ajustar de ×1 a ×8. En zonas llanas, como Piura, sin exageración casi no se distingue el relieve.
 - **Visor:** three.js (versión 0.147), en el navegador. El mar se recorta a 0 m.
 
+## 5c. Agua con radar (Sentinel-1)
+
+- **Por qué radar:** las imágenes ópticas dependen del cielo y en la costa norte casi no hay una despejada en 15 días. El radar atraviesa las nubes y mide de día y de noche.
+- **Fuente:** Sentinel-1 RTC (corregido por relieve), banda VV, desde Microsoft Planetary Computer. Hay de 4 a 6 pasadas en 15 días por zona.
+- **Detección:** se suaviza la señal con un promedio 3 × 3 (reduce el moteado del radar). Un píxel es agua si su retrodispersión es menor de **−18 dB**; era tierra en la referencia si era mayor de **−15 dB**.
+- **Referencia:** mediana de hasta tres pasadas de la misma época un año antes (±25 días) y **de la misma órbita**, para que el ángulo de observación no produzca diferencias falsas.
+- **Agua nueva:** agua ahora y tierra en la referencia. **Agua permanente:** agua en ambas (mar, ríos, lagunas, embalses).
+- **Protecciones contra falsos positivos:** se descartan los píxeles sin dato (borde de la escena), las pendientes de más de 10° (la sombra del relieve también se ve oscura) y, en el agua nueva, las manchas aisladas (apertura 3 × 3).
+- **Resolución:** 800 × 800 px por zona (unos 27 m por píxel). Los ríos angostos pueden perderse.
+- **Límites:** no distingue inundación de riego ni de un embalse nuevo; los umbrales son valores típicos de la literatura y no se han calibrado contra inundaciones documentadas; el ruido de base llega a unas 8 ha por pasada en zonas secas. Un aumento sostenido en varias pasadas seguidas es más confiable que una cifra aislada.
+
 ## 6. Actualización
 
-El workflow `.github/workflows/dashboard.yml` corre cada día a las 6:30 a. m. (Lima): baja el Niño 1+2 y el ICEN, recalcula lluvia, mar e índice, descarga las imágenes y publica el sitio. Los pasos de mar e imágenes continúan aunque fallen; el sitio conserva entonces los últimos archivos.
+El workflow `.github/workflows/dashboard.yml` corre cada día a las 6:30 a. m. (Lima): baja el Niño 1+2 y el ICEN, recalcula lluvia, mar e índice, descarga las imágenes ópticas y de radar, corre las pruebas y publica el sitio. Los pasos de mar e imágenes continúan aunque fallen; el sitio conserva entonces los últimos archivos.
 
 ## 7. Qué falta
 
