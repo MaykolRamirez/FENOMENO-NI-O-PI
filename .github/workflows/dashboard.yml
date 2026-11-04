@@ -33,7 +33,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Instalar librerías
-        run: pip install -q pandas numpy requests pytest
+        run: pip install -q pandas numpy requests pillow pytest
       - name: Temperatura del mar (NOAA e ICEN)
         run: cd src && python temperatura_mar.py
         continue-on-error: true
