@@ -20,7 +20,7 @@ El Niño 2026 es extremo: la anomalía de temperatura del mar en la región Niñ
 | **Situación** | Titular del día, cifras clave, mapa del Perú por nivel de riesgo y rankings de los puntos con más riesgo y más lluvia sobre lo normal |
 | **Lluvias 15 días** | Tabla de 26 puntos con la lluvia diaria de los últimos 15 días, el pronóstico de 5 días y la comparación con el acumulado normal de esa fecha |
 | **Huaicos e inundaciones** | Una tarjeta por punto con su índice de riesgo (0–100) y sus tres componentes |
-| **Satélite antes/ahora** | Comparador deslizable de imágenes Sentinel-2 en seis zonas (color real, vegetación NDVI y agua NDWI, con la misma época del año anterior como referencia) y **vista 3D** con la imagen sobre el relieve real, que se puede girar y acercar |
+| **Satélite antes/ahora** | Comparador deslizable de imágenes Sentinel-2 en seis zonas (color real, vegetación NDVI y agua NDWI, con la misma época del año anterior como referencia), **vista 3D** con la imagen sobre el relieve real y **agua detectada con radar Sentinel-1** de los últimos 15 o 30 días, que atraviesa las nubes |
 | **Mar y El Niño** | Anomalía semanal Niño 1+2 de los últimos 2 años, comparación con 1982-83, 1997-98, 2017 y 2023, temperatura del mar en 8 puertos e Índice Costero El Niño (ICEN) |
 | **Método y fuentes** | Fuentes, fórmula del índice y limitaciones |
 
@@ -36,6 +36,7 @@ Todas son públicas y no requieren clave.
 | Anomalía semanal Niño 1+2 | NOAA Climate Prediction Center |
 | Índice Costero El Niño (ICEN) | IGP / ENFEN |
 | Imágenes satelitales | Sentinel-2 L2A (Copernicus) vía [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/) |
+| Agua (radar) | Sentinel-1 RTC (Copernicus) vía Microsoft Planetary Computer, polarización VV |
 | Relieve (elevación) | [AWS Terrain Tiles](https://registry.opendata.aws/terrain-tiles/) (formato Terrarium) |
 | Límites departamentales | INEI, [peru-geojson](https://github.com/juaneladio/peru-geojson) |
 
@@ -58,6 +59,7 @@ Niveles: **Bajo** < 25 · **Moderado** 25–49 · **Alto** 50–74 · **Muy alto
 - **La lluvia es de modelo**, no de pluviómetro: puede subestimar chubascos locales.
 - **Solo 26 puntos** (capitales departamentales, Callao y Chimbote): una quebrada concreta puede estar peor que su capital.
 - **No incluye reportes oficiales** de emergencias (INDECI/COEN) ni deslizamientos observados.
+- **El agua del radar es un indicador, no un mapa oficial de inundaciones.** No distingue una inundación de agua de riego o de un embalse nuevo, y en zonas secas el ruido de base llega a unas 8 ha por pasada. Las pasadas llegan cada 3 a 6 días, no a diario.
 - **El relieve 3D** usa una malla de unos 110 m: sirve para ver la forma del terreno, no para medir pendientes de detalle. En zonas planas (costa norte) el relieve se exagera hasta 8 veces para que se note.
 - **La imagen satelital "ahora"** es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes. Cada imagen muestra su fecha y su porcentaje de nubes. La costa nublada puede tapar zonas.
 - **"Antes" es la misma época del año anterior**, no necesariamente un estado previo al evento.
@@ -78,7 +80,8 @@ FENOMENO-NI-O-PI/
 │   ├── temperatura_mar.py     Niño 1+2 (NOAA) e ICEN (IGP)
 │   ├── clima_nino.py          Lluvia, climatología, mar e índice de riesgo
 │   ├── imagenes_satelite.py   Imágenes Sentinel-2 antes y ahora
-│   └── relieve.py             Malla de elevación de cada zona para la vista 3D (se genera una vez)
+│   ├── relieve.py             Malla de elevación de cada zona para la vista 3D (se genera una vez)
+│   └── agua_radar.py          Agua nueva y permanente detectada con radar Sentinel-1
 ├── data/
 │   ├── raw/                   nino12_semanal.csv, icen.csv
 │   └── clima/                 climatologia_precip.json (caché de lo "normal")
@@ -105,6 +108,7 @@ python temperatura_mar.py      # Niño 1+2 e ICEN (data/raw)
 python clima_nino.py           # lluvia, mar e índice (dashboard/data); la primera vez calcula la climatología
 python imagenes_satelite.py    # imágenes Sentinel-2 (dashboard/data/sat); tarda unos minutos
 python relieve.py              # relieve de las zonas (dashboard/data/dem); solo hace falta una vez
+python agua_radar.py           # agua detectada con radar (dashboard/data/agua); tarda unos 5 minutos
 ```
 
 Para ver el tablero en el navegador, desde la raíz del repositorio:
