@@ -9,17 +9,16 @@ Salidas:
     data/raw/icen.csv             Índice Costero El Niño (mensual)
 
 Recordatorio: el ICEN es una media móvil de 3 meses y su último valor es
-provisional. En el modelo solo se usa rezagado o para fechar episodios.
+provisional.
 """
 from __future__ import annotations
 
 import re
-from datetime import datetime
 
 import pandas as pd
 import requests
 
-from config import DATA_RAW, DATA_VINTAGES
+from config import DATA_RAW
 
 URL_NOAA_SEMANAL = "https://www.cpc.ncep.noaa.gov/data/indices/wksst9120.for"
 URL_ICEN = "http://met.igp.gob.pe/datos/ICEN.txt"
@@ -78,23 +77,18 @@ def descargar_texto(url: str) -> str:
 
 if __name__ == "__main__":
     DATA_RAW.mkdir(parents=True, exist_ok=True)
-    DATA_VINTAGES.mkdir(parents=True, exist_ok=True)
-    sello = datetime.now().strftime("%Y%m%d_%H%M")
 
     print("Descargando anomalía semanal Niño 1+2 (NOAA)…")
     semanal = parsear_noaa_semanal(descargar_texto(URL_NOAA_SEMANAL))
     mensual = a_mensual(semanal)
     semanal.to_csv(DATA_RAW / "nino12_semanal.csv", index=False)
     mensual.astype({"fecha": str}).to_csv(DATA_RAW / "nino12_mensual.csv", index=False)
-    semanal.to_csv(DATA_VINTAGES / f"nino12_semanal_{sello}.csv.gz", index=False)
-    mensual.astype({"fecha": str}).to_csv(DATA_VINTAGES / f"nino12_mensual_{sello}.csv.gz", index=False)
     print(f"  {len(semanal)} semanas, de {semanal['semana'].min():%d/%m/%Y} a {semanal['semana'].max():%d/%m/%Y}")
 
     print("Descargando ICEN (IGP/ENFEN)…")
     try:
         icen = parsear_icen(descargar_texto(URL_ICEN))
         icen.astype({"fecha": str}).to_csv(DATA_RAW / "icen.csv", index=False)
-        icen.astype({"fecha": str}).to_csv(DATA_VINTAGES / f"icen_{sello}.csv.gz", index=False)
         print(f"  {len(icen)} meses, último: {icen['fecha'].max()} (provisional)")
     except Exception as error:  # el ICEN es complementario; la NOAA ya quedó guardada
         print(f"  ICEN no disponible ({error}); se continúa sin él.")
