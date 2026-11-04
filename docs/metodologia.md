@@ -56,7 +56,17 @@ saturación = min(1, acumulado de 15 días ÷ máx(2 × normal de esa fecha, 20 
   - *Color real:* bandas B04, B03, B02.
   - *Vegetación (NDVI):* (B08 − B04) ÷ (B08 + B04). Rojo = suelo desnudo o sin plantas; verde = vegetación densa.
   - *Agua (NDWI):* (B03 − B08) ÷ (B03 + B08). Azul oscuro = agua o suelo muy húmedo; amarillo claro = suelo seco.
+- **Resolución:** el color real se guarda a 1.600 × 1.600 px (unos 14 m por píxel); vegetación y agua, a 800 × 800 px.
+- **Realce del color real:** gamma 1,9, saturación 1,7 y curva sigmoidal (11, 0,18). Sin este realce la imagen sale pálida y no se distinguen cultivos, ciudades ni cauces.
+- **Preferencia de escenas:** primero las que cubren las cuatro esquinas de la zona (sin bordes negros); si no hay, se acepta una con tres.
 - **Alcance:** el cambio se interpreta a simple vista. No hay un mapa automático de diferencias.
+
+## 5b. Relieve 3D
+
+- **Elevación:** AWS Terrain Tiles (formato Terrarium) a zoom 12 (unos 38 m por píxel en el ecuador), unidas y remuestreadas a una malla regular de 201 × 201 puntos por zona (unos 110 m de separación). Script: `src/relieve.py`. La malla no cambia día a día, por eso se genera una vez y se guarda en `dashboard/data/dem/`.
+- **Proyección:** la malla está en longitud y latitud, igual que las imágenes, de modo que la imagen se pega directamente sobre el relieve.
+- **Exageración vertical:** se elige según el desnivel de la zona (×8 si es menor de 400 m, ×1,5 si supera 3.500 m) y se puede ajustar de ×1 a ×8. En zonas llanas, como Piura, sin exageración casi no se distingue el relieve.
+- **Visor:** three.js (versión 0.147), en el navegador. El mar se recorta a 0 m.
 
 ## 6. Actualización
 
