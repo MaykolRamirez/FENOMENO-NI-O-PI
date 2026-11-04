@@ -81,6 +81,14 @@ svg text{fill:var(--ink);font-family:inherit}
 .ctl label{color:var(--muted);font-size:.85rem}
 .ctl input[type=range]{vertical-align:middle;width:110px}
 [hidden]{display:none!important}
+.chk{display:inline-flex;align-items:center;gap:5px;cursor:pointer}
+#imgW{pointer-events:none;image-rendering:auto;clip-path:inset(0 0 0 50%)}
+#pagua{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+#aguaInfo{font-size:.9rem;margin-bottom:6px}
+#aguaInfo b{font-variant-numeric:tabular-nums}
+#gagua{width:100%;max-width:760px;height:120px;display:block}
+#gagua rect{cursor:pointer}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px;margin:0 4px 0 10px;vertical-align:-1px}
 footer{max-width:1180px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.82rem}
 button.th{float:right;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:.8rem}
 a{color:var(--accent)}
@@ -135,13 +143,17 @@ a{color:var(--accent)}
       <label>Zona <select id="szona"></select></label>
       <span class="seg" id="svista"><button data-v="rgb" class="on">Color real</button><button data-v="ndvi">Vegetación</button><button data-v="agua">Agua</button></span>
       <span class="seg" id="sepoca" hidden><button data-e="antes">Antes</button><button data-e="ahora" class="on">Ahora</button></span>
-      <label id="lexa" hidden>Relieve ×<b id="vexa">3</b> <input type="range" id="exa" min="1" max="8" step="0.5" value="3"></label></div>
+      <label id="lexa" hidden>Relieve ×<b id="vexa">3</b> <input type="range" id="exa" min="1" max="8" step="0.5" value="3"></label>
+      <label class="chk"><input type="checkbox" id="chkAgua" checked> Agua (radar)</label>
+      <span class="seg" id="sdias"><button data-d="15">15 días</button><button data-d="30" class="on">30 días</button></span></div>
     <div id="p2d">
-      <div id="comp"><img id="imgA" alt="Imagen anterior"><img id="imgB" alt="Imagen reciente"><div id="cut"></div>
+      <div id="comp"><img id="imgA" alt="Imagen anterior"><img id="imgB" alt="Imagen reciente"><img id="imgW" alt="Agua detectada por radar" hidden><div id="cut"></div>
         <span class="lab l" id="labA"></span><span class="lab r" id="labB"></span></div>
       <input type="range" id="rng" min="0" max="100" value="50" aria-label="Deslizar entre antes y ahora"></div>
     <div id="p3d" hidden><div id="v3d"><span class="lab l" id="lab3"></span><div id="msg3" class="lab r" hidden></div></div>
       <p class="n" style="margin-top:6px">Arrastra para girar, rueda o pellizca para acercar, clic derecho o dos dedos para desplazar. En zonas planas el relieve está exagerado para que se note.</p></div>
+    <div id="pagua"><div id="aguaInfo"></div><svg id="gagua" viewBox="0 0 560 120" role="img" aria-label="Agua nueva por pasada del radar"></svg>
+      <div class="leg"><span><i class="sw" style="background:#00e1ff"></i>Agua nueva (hoy es agua y hace un año era tierra)</span><span><i class="sw" style="background:#2d73e6"></i>Agua permanente (mar, ríos, lagunas)</span></div></div>
     <div class="leg" id="slev"></div>
     <p class="warn" id="snota"></p></div>
 </section>
@@ -354,19 +366,22 @@ const DESC={'2d':'Arrastra la barra: a la izquierda, la misma zona un año antes
 function satInit(){
   fetch('data/sat/satelite.json?t='+Date.now()).then(r=>r.json()).then(m=>{
     SAT=m; $('#szona').innerHTML=m.zonas.map(z=>`<option value="${z.id}">${z.nombre} · ${z.nota}</option>`).join('');
-    $('#szona').onchange=()=>{satPintar();if(MODO==='3d')t3Cargar(true)};
+    $('#szona').onchange=()=>{satPintar();ESC=null;aguaPintar();if(MODO==='3d')t3Cargar(true)};
     $('#svista').onclick=e=>{if(!e.target.dataset.v)return;[...$('#svista').children].forEach(b=>b.classList.toggle('on',b===e.target));satPintar();if(MODO==='3d')t3Cargar(false)};
     $('#sepoca').onclick=e=>{if(!e.target.dataset.e)return;EPOCA=e.target.dataset.e;[...$('#sepoca').children].forEach(b=>b.classList.toggle('on',b===e.target));t3Cargar(false)};
     $('#smodo').onclick=e=>{if(!e.target.dataset.m)return;MODO=e.target.dataset.m;[...$('#smodo').children].forEach(b=>b.classList.toggle('on',b===e.target));modo()};
     $('#exa').oninput=e=>{$('#vexa').textContent=e.target.value;if(T.mesh)t3Escala()};
-    $('#rng').oninput=e=>{const v=e.target.value;$('#imgB').style.clipPath=`inset(0 0 0 ${v}%)`;$('#cut').style.left=v+'%'};
-    satPintar();
+    $('#rng').oninput=e=>{const v=e.target.value;$('#imgB').style.clipPath=`inset(0 0 0 ${v}%)`;$('#imgW').style.clipPath=`inset(0 0 0 ${v}%)`;$('#cut').style.left=v+'%'};
+    $('#chkAgua').onchange=aguaPintar;
+    $('#sdias').onclick=e=>{if(!e.target.dataset.d)return;DIAS=+e.target.dataset.d;[...$('#sdias').children].forEach(b=>b.classList.toggle('on',b===e.target));ESC=null;aguaPintar()};
+    satPintar();aguaCargar();
   }).catch(()=>{$('#snota').textContent='Las imágenes satelitales aún no están disponibles.'});
 }
 function modo(){
   const d3=MODO==='3d';
   $('#p2d').hidden=d3;$('#p3d').hidden=!d3;$('#sepoca').hidden=!d3;$('#lexa').hidden=!d3;$('#sdesc').textContent=DESC[MODO];
   if(d3)t3Cargar(true);
+  aguaPintar();
 }
 function satPintar(){
   const z=SAT.zonas.find(x=>x.id===$('#szona').value)||SAT.zonas[0], v=document.querySelector('#svista .on').dataset.v;
@@ -379,7 +394,7 @@ function satPintar(){
     ndvi:'Vegetación (NDVI): rojo = suelo desnudo o sin plantas, verde oscuro = vegetación densa.',
     agua:'Agua (NDWI): azul oscuro = agua o suelo muy húmedo, amarillo claro = suelo seco.'};
   $('#slev').innerHTML=`<span>${L[v]}</span>`;
-  $('#snota').textContent=`Sentinel-2 L2A (Copernicus) vía Microsoft Planetary Computer, 10 m. Relieve: AWS Terrain Tiles. Referencia: la misma época del año anterior. La imagen reciente es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes; revisa la fecha. Las nubes pueden tapar zonas.`;
+  $('#snota').textContent=`Sentinel-2 L2A (Copernicus) vía Microsoft Planetary Computer, 10 m. Relieve: AWS Terrain Tiles. Referencia: la misma época del año anterior. La imagen reciente es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes; revisa la fecha. Las nubes pueden tapar zonas. El agua se detecta con radar Sentinel-1 (VV), que atraviesa las nubes: es agua si la señal es menor de -18 dB y hace un año, en la misma órbita, era tierra. Se descartan pendientes de más de 10° y manchas aisladas. No distingue una inundación de agua de riego o de un embalse nuevo, y en zonas secas el ruido de base llega a unas 8 ha por pasada.`;
 }
 
 /* ---------- Relieve 3D (three.js) ---------- */
@@ -428,12 +443,57 @@ async function t3Cargar(reencuadrar){
   new THREE.TextureLoader().load(url,tex=>{if(turno!==T.turno){tex.dispose();return}tex.encoding=THREE.sRGBEncoding;tex.anisotropy=8;if(T.mesh.material.map)T.mesh.material.map.dispose();T.mesh.material.map=tex;T.mesh.material.needsUpdate=true});
   const sc=z.escenas[EPOCA];$('#lab3').textContent=`${EPOCA==='antes'?'Antes':'Ahora'} · ${fd(sc.fecha)} ${sc.fecha.slice(0,4)} (${sc.nubes} % nubes) · altitud ${f0(dem.min)}–${f0(dem.max)} m`;
   if(reencuadrar){const L=Math.max(w,d);T.camera.position.set(0,L*0.55,d*0.62+L*0.35);T.controls.target.set(0,0,0);T.controls.update()}
+  t3Agua();
 }
 function t3Escala(){
   const exa=parseFloat($('#exa').value), pos=T.mesh.geometry.attributes.position, n=T.dem.n;
   const base=(T.dem.min+T.dem.max)/2;
   for(let k=0;k<n*n;k++)pos.array[3*k+1]=(T.dem.h[k]-base)/1000*exa;
   pos.needsUpdate=true;T.mesh.geometry.computeVertexNormals();
+}
+/* ---------- Agua detectada con radar Sentinel-1 ---------- */
+let AGUA=null, ESC=null, DIAS=30;
+function aguaCargar(){
+  fetch('data/agua/agua.json?t='+Date.now()).then(r=>r.json()).then(a=>{AGUA=a;aguaPintar()}).catch(()=>{$('#pagua').hidden=true});
+}
+function aguaEscenas(){
+  if(!AGUA)return [];
+  const z=AGUA.zonas[$('#szona').value]; if(!z)return [];
+  const corte=new Date(AGUA.generado.slice(0,10)+'T12:00:00Z').getTime()-DIAS*864e5;
+  return z.escenas.filter(e=>new Date(e.fecha+'T12:00:00Z').getTime()>=corte);
+}
+function aguaPintar(){
+  const caja=$('#pagua');
+  const lista=aguaEscenas(), z=$('#szona').value, activa=$('#chkAgua').checked;
+  if(!AGUA||!lista.length){caja.hidden=!AGUA?true:false;$('#aguaInfo').textContent=AGUA?'No hay pasadas del radar en este periodo para esta zona.':'';$('#gagua').innerHTML='';$('#imgW').hidden=true;t3Agua();return}
+  caja.hidden=false;
+  if(ESC===null||ESC>=lista.length)ESC=lista.length-1;
+  const e=lista[ESC], url=`data/agua/${e.archivo}?v=${encodeURIComponent(AGUA.generado)}`;
+  $('#imgW').hidden=!activa;if(activa)$('#imgW').src=url;
+  $('#imgW').style.clipPath=`inset(0 0 0 ${$('#rng').value}%)`;
+  $('#aguaInfo').innerHTML=`Pasada del radar del <b>${fd(e.fecha)}</b> (órbita ${e.orbita}): agua nueva <b>${f0(e.nueva_ha)} ha</b> · agua permanente ${f0(e.permanente_ha)} ha. <span class="muted">Haz clic en una barra para ver otra fecha.</span>`;
+  // gráfico: agua nueva por pasada
+  const W=560,H=120,m={l:34,r:8,t:8,b:20},mx=Math.max(10,...lista.map(x=>x.nueva_ha)),bw=(W-m.l-m.r)/lista.length;
+  let g=`<line x1="${m.l}" x2="${W-m.r}" y1="${H-m.b}" y2="${H-m.b}" stroke="${css('--line')}"/><text x="${m.l-5}" y="${m.t+8}" text-anchor="end" font-size="10" fill="${css('--muted')}">${f0(mx)} ha</text><text x="${m.l-5}" y="${H-m.b}" text-anchor="end" font-size="10" fill="${css('--muted')}">0</text>`;
+  lista.forEach((x,i)=>{const h=(H-m.t-m.b)*x.nueva_ha/mx, sel=i===ESC;
+    g+=`<rect data-i="${i}" x="${m.l+i*bw+bw*.12}" y="${H-m.b-h}" width="${bw*.76}" height="${Math.max(h,1)}" rx="2" fill="#00b8d4" opacity="${sel?1:.55}" stroke="${sel?css('--ink'):'none'}"><title>${fd(x.fecha)}: ${f0(x.nueva_ha)} ha nuevas</title></rect>`});
+  [0,lista.length-1].forEach(i=>g+=`<text x="${m.l+i*bw+bw/2}" y="${H-5}" text-anchor="${i===0?'start':'end'}" font-size="10" fill="${css('--muted')}">${fd(lista[i].fecha)}</text>`);
+  $('#gagua').innerHTML=g;
+  $('#gagua').onclick=ev=>{const i=ev.target.dataset&&ev.target.dataset.i;if(i!==undefined){ESC=+i;aguaPintar()}};
+  t3Agua();
+}
+function t3Agua(){
+  if(!T.mesh)return;
+  const lista=aguaEscenas(), activa=$('#chkAgua').checked&&AGUA&&lista.length&&ESC!==null&&lista[ESC];
+  if(T.agua&&T.agua.geometry!==T.mesh.geometry){T.scene.remove(T.agua);T.agua.material.dispose();T.agua=null}
+  if(!activa){if(T.agua)T.agua.visible=false;return}
+  if(!T.agua){
+    T.agua=new THREE.Mesh(T.mesh.geometry,new THREE.MeshBasicMaterial({transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}));
+    T.scene.add(T.agua);
+  }
+  T.agua.visible=true;
+  const url=`data/agua/${lista[ESC].archivo}?v=${encodeURIComponent(AGUA.generado)}`, mio=T.aguaTurno=(T.aguaTurno||0)+1;
+  new THREE.TextureLoader().load(url,tex=>{if(mio!==T.aguaTurno||!T.agua){tex.dispose();return}tex.encoding=THREE.sRGBEncoding;if(T.agua.material.map)T.agua.material.map.dispose();T.agua.material.map=tex;T.agua.material.needsUpdate=true});
 }
 satInit();
 tabs();
