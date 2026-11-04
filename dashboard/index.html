@@ -76,6 +76,11 @@ svg text{fill:var(--ink);font-family:inherit}
 .lab{position:absolute;top:8px;background:#000a;color:#fff;padding:3px 8px;border-radius:5px;font-size:.78rem}
 .lab.l{left:8px}.lab.r{right:8px}
 #rng{width:100%;max-width:760px;display:block;margin:8px auto 0}
+#v3d{position:relative;width:100%;height:clamp(340px,62vw,560px);border-radius:8px;overflow:hidden;background:#0b1118;touch-action:none}
+#v3d canvas{display:block;width:100%;height:100%}
+.ctl label{color:var(--muted);font-size:.85rem}
+.ctl input[type=range]{vertical-align:middle;width:110px}
+[hidden]{display:none!important}
 footer{max-width:1180px;margin:0 auto;padding:0 16px 40px;color:var(--muted);font-size:.82rem}
 button.th{float:right;background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:.8rem}
 a{color:var(--accent)}
@@ -125,12 +130,18 @@ a{color:var(--accent)}
 
 <section id="satelite">
   <div class="card"><h2>El terreno antes y ahora (Sentinel-2)</h2>
-    <p class="n">Arrastra la barra: a la izquierda, la misma zona un año antes; a la derecha, la imagen más reciente con pocas nubes. Compara colores para ver dónde hay más vegetación, agua o suelo cambiado por las lluvias.</p>
-    <div class="ctl"><label>Zona <select id="szona"></select></label>
-      <span class="seg" id="svista"><button data-v="rgb" class="on">Color real</button><button data-v="ndvi">Vegetación</button><button data-v="agua">Agua</button></span></div>
-    <div id="comp"><img id="imgA" alt="Imagen anterior"><img id="imgB" alt="Imagen reciente"><div id="cut"></div>
-      <span class="lab l" id="labA"></span><span class="lab r" id="labB"></span></div>
-    <input type="range" id="rng" min="0" max="100" value="50" aria-label="Deslizar entre antes y ahora">
+    <p class="n" id="sdesc"></p>
+    <div class="ctl"><span class="seg" id="smodo"><button data-m="2d" class="on">Comparar 2D</button><button data-m="3d">Relieve 3D</button></span>
+      <label>Zona <select id="szona"></select></label>
+      <span class="seg" id="svista"><button data-v="rgb" class="on">Color real</button><button data-v="ndvi">Vegetación</button><button data-v="agua">Agua</button></span>
+      <span class="seg" id="sepoca" hidden><button data-e="antes">Antes</button><button data-e="ahora" class="on">Ahora</button></span>
+      <label id="lexa" hidden>Relieve ×<b id="vexa">3</b> <input type="range" id="exa" min="1" max="8" step="0.5" value="3"></label></div>
+    <div id="p2d">
+      <div id="comp"><img id="imgA" alt="Imagen anterior"><img id="imgB" alt="Imagen reciente"><div id="cut"></div>
+        <span class="lab l" id="labA"></span><span class="lab r" id="labB"></span></div>
+      <input type="range" id="rng" min="0" max="100" value="50" aria-label="Deslizar entre antes y ahora"></div>
+    <div id="p3d" hidden><div id="v3d"><span class="lab l" id="lab3"></span><div id="msg3" class="lab r" hidden></div></div>
+      <p class="n" style="margin-top:6px">Arrastra para girar, rueda o pellizca para acercar, clic derecho o dos dedos para desplazar. En zonas planas el relieve está exagerado para que se note.</p></div>
     <div class="leg" id="slev"></div>
     <p class="warn" id="snota"></p></div>
 </section>
@@ -170,6 +181,8 @@ a{color:var(--accent)}
 </main>
 <footer>Proyecto del Programa de Extensión Universitaria: Ciencia del Dato (INEI, 2026). Código en el repositorio del proyecto, carpeta <code>src/clima_nino.py</code> y <code>dashboard/</code>. Inspirado en el <a href="https://alexanderquispe.github.io/incendios-peru/">Monitor de incendios del Perú</a>.</footer>
 <div id="tip"></div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
 
 <script>
 const $=s=>document.querySelector(s), tip=$('#tip');
@@ -335,20 +348,30 @@ Promise.all(['lluvia','mar','resumen'].map(n=>fetch('data/'+n+'.json').then(r=>r
   $('#titular').textContent=r.titular; pintar(); tabs();
 }).catch(e=>{$('#corte').textContent='No se pudieron cargar los datos: '+e.message});
 
-let SAT=null;
+let SAT=null, MODO='2d', EPOCA='ahora';
+const DESC={'2d':'Arrastra la barra: a la izquierda, la misma zona un año antes; a la derecha, la imagen más reciente con pocas nubes. Compara colores para ver dónde hay más vegetación, agua o suelo cambiado por las lluvias.',
+ '3d':'La imagen satelital sobre el relieve real de la zona. Cambia entre antes y ahora, y entre color real, vegetación y agua, para ver cómo el agua sigue las quebradas y los valles.'};
 function satInit(){
-  fetch('data/sat/satelite.json').then(r=>r.json()).then(m=>{
+  fetch('data/sat/satelite.json?t='+Date.now()).then(r=>r.json()).then(m=>{
     SAT=m; $('#szona').innerHTML=m.zonas.map(z=>`<option value="${z.id}">${z.nombre} · ${z.nota}</option>`).join('');
-    $('#szona').onchange=satPintar;
-    $('#svista').onclick=e=>{if(!e.target.dataset.v)return;[...$('#svista').children].forEach(b=>b.classList.toggle('on',b===e.target));satPintar()};
+    $('#szona').onchange=()=>{satPintar();if(MODO==='3d')t3Cargar(true)};
+    $('#svista').onclick=e=>{if(!e.target.dataset.v)return;[...$('#svista').children].forEach(b=>b.classList.toggle('on',b===e.target));satPintar();if(MODO==='3d')t3Cargar(false)};
+    $('#sepoca').onclick=e=>{if(!e.target.dataset.e)return;EPOCA=e.target.dataset.e;[...$('#sepoca').children].forEach(b=>b.classList.toggle('on',b===e.target));t3Cargar(false)};
+    $('#smodo').onclick=e=>{if(!e.target.dataset.m)return;MODO=e.target.dataset.m;[...$('#smodo').children].forEach(b=>b.classList.toggle('on',b===e.target));modo()};
+    $('#exa').oninput=e=>{$('#vexa').textContent=e.target.value;if(T.mesh)t3Escala()};
     $('#rng').oninput=e=>{const v=e.target.value;$('#imgB').style.clipPath=`inset(0 0 0 ${v}%)`;$('#cut').style.left=v+'%'};
     satPintar();
   }).catch(()=>{$('#snota').textContent='Las imágenes satelitales aún no están disponibles.'});
 }
+function modo(){
+  const d3=MODO==='3d';
+  $('#p2d').hidden=d3;$('#p3d').hidden=!d3;$('#sepoca').hidden=!d3;$('#lexa').hidden=!d3;$('#sdesc').textContent=DESC[MODO];
+  if(d3)t3Cargar(true);
+}
 function satPintar(){
   const z=SAT.zonas.find(x=>x.id===$('#szona').value)||SAT.zonas[0], v=document.querySelector('#svista .on').dataset.v;
-  const ext=v==='rgb'?'jpg':'jpg';
-  $('#imgA').src=`data/sat/${z.id}_antes_${v}.${ext}`;$('#imgB').src=`data/sat/${z.id}_ahora_${v}.${ext}`;
+  $('#sdesc').textContent=DESC[MODO];
+  const q='?v='+encodeURIComponent(SAT.generado);$('#imgA').src=`data/sat/${z.id}_antes_${v}.jpg${q}`;$('#imgB').src=`data/sat/${z.id}_ahora_${v}.jpg${q}`;
   const a=z.escenas.antes,b=z.escenas.ahora;
   $('#labA').textContent=`Antes · ${fd(a.fecha)} ${a.fecha.slice(0,4)} (${a.nubes} % nubes)`;
   $('#labB').textContent=`Ahora · ${fd(b.fecha)} ${b.fecha.slice(0,4)} (${b.nubes} % nubes)`;
@@ -356,7 +379,61 @@ function satPintar(){
     ndvi:'Vegetación (NDVI): rojo = suelo desnudo o sin plantas, verde oscuro = vegetación densa.',
     agua:'Agua (NDWI): azul oscuro = agua o suelo muy húmedo, amarillo claro = suelo seco.'};
   $('#slev').innerHTML=`<span>${L[v]}</span>`;
-  $('#snota').textContent=`Sentinel-2 L2A (Copernicus) vía Microsoft Planetary Computer, 10 m. Referencia: la misma época del año anterior. La imagen reciente es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes; revisa la fecha. Las nubes pueden tapar zonas.`;
+  $('#snota').textContent=`Sentinel-2 L2A (Copernicus) vía Microsoft Planetary Computer, 10 m. Relieve: AWS Terrain Tiles. Referencia: la misma época del año anterior. La imagen reciente es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes; revisa la fecha. Las nubes pueden tapar zonas.`;
+}
+
+/* ---------- Relieve 3D (three.js) ---------- */
+const T={};
+const DEMS={};
+function t3Aviso(txt){$('#msg3').hidden=false;$('#msg3').textContent=txt}
+function t3Init(){
+  if(T.ok)return true;
+  if(!window.THREE||!THREE.OrbitControls){t3Aviso('No se pudo cargar el visor 3D.');return false}
+  const el=$('#v3d');
+  try{T.renderer=new THREE.WebGLRenderer({antialias:true})}catch(e){t3Aviso('Tu navegador no permite gráficos 3D (WebGL).');return false}
+  T.renderer.outputEncoding=THREE.sRGBEncoding;T.renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  el.insertBefore(T.renderer.domElement,el.firstChild);
+  T.scene=new THREE.Scene();T.scene.background=new THREE.Color(0x0b1118);
+  T.camera=new THREE.PerspectiveCamera(42,1,0.05,400);
+  T.controls=new THREE.OrbitControls(T.camera,T.renderer.domElement);T.controls.enableDamping=true;T.controls.maxPolarAngle=Math.PI*0.49;
+  T.scene.add(new THREE.AmbientLight(0xffffff,0.78));
+  const sol=new THREE.DirectionalLight(0xffffff,0.85);sol.position.set(-8,10,6);T.scene.add(sol);
+  const ajustar=()=>{const w=el.clientWidth,h=el.clientHeight;if(!w||!h)return;T.renderer.setSize(w,h,false);T.camera.aspect=w/h;T.camera.updateProjectionMatrix()};
+  new ResizeObserver(ajustar).observe(el);ajustar();
+  (function bucle(){requestAnimationFrame(bucle);if(MODO==='3d'&&el.clientWidth){T.controls.update();T.renderer.render(T.scene,T.camera)}})();
+  T.ok=true;return true;
+}
+async function t3Cargar(reencuadrar){
+  if(!t3Init())return;
+  const turno=T.turno=(T.turno||0)+1;
+  const z=SAT.zonas.find(x=>x.id===$('#szona').value)||SAT.zonas[0], v=document.querySelector('#svista .on').dataset.v;
+  if(!DEMS[z.id]){try{DEMS[z.id]=await (await fetch(`data/dem/${z.id}.json`)).json()}catch(e){t3Aviso('Falta el relieve de esta zona.');return}}
+  if(turno!==T.turno)return;
+  $('#msg3').hidden=true;
+  const dem=DEMS[z.id], n=dem.n, [o,s,e,nn]=dem.bbox, lat0=(s+nn)/2*Math.PI/180;
+  const w=(e-o)*111.32*Math.cos(lat0), d=(nn-s)*110.57;
+  if(T.zona!==z.id||!T.mesh){
+    if(T.mesh){T.scene.remove(T.mesh);T.mesh.geometry.dispose()}
+    const pos=new Float32Array(n*n*3), uv=new Float32Array(n*n*2), idx=[];
+    for(let i=0;i<n;i++)for(let j=0;j<n;j++){const k=i*n+j;pos[3*k]=-w/2+j*w/(n-1);pos[3*k+2]=-d/2+i*d/(n-1);pos[3*k+1]=0;uv[2*k]=j/(n-1);uv[2*k+1]=1-i/(n-1)}
+    for(let i=0;i<n-1;i++)for(let j=0;j<n-1;j++){const a=i*n+j,b=a+1,c=a+n,f=c+1;idx.push(a,c,b,b,c,f)}
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('uv',new THREE.BufferAttribute(uv,2));g.setIndex(idx);
+    T.mesh=new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:0xffffff}));T.scene.add(T.mesh);T.zona=z.id;T.dem=dem;T.w=w;T.d=d;
+    const rel=dem.max-dem.min, exa=rel<400?8:rel<900?5:rel<2000?3:rel<3500?2:1.5;
+    $('#exa').value=exa;$('#vexa').textContent=exa;
+    t3Escala();
+    reencuadrar=true;
+  }
+  const url=`data/sat/${z.id}_${EPOCA}_${v}.jpg?v=${encodeURIComponent(SAT.generado)}`;
+  new THREE.TextureLoader().load(url,tex=>{if(turno!==T.turno){tex.dispose();return}tex.encoding=THREE.sRGBEncoding;tex.anisotropy=8;if(T.mesh.material.map)T.mesh.material.map.dispose();T.mesh.material.map=tex;T.mesh.material.needsUpdate=true});
+  const sc=z.escenas[EPOCA];$('#lab3').textContent=`${EPOCA==='antes'?'Antes':'Ahora'} · ${fd(sc.fecha)} ${sc.fecha.slice(0,4)} (${sc.nubes} % nubes) · altitud ${f0(dem.min)}–${f0(dem.max)} m`;
+  if(reencuadrar){const L=Math.max(w,d);T.camera.position.set(0,L*0.55,d*0.62+L*0.35);T.controls.target.set(0,0,0);T.controls.update()}
+}
+function t3Escala(){
+  const exa=parseFloat($('#exa').value), pos=T.mesh.geometry.attributes.position, n=T.dem.n;
+  const base=(T.dem.min+T.dem.max)/2;
+  for(let k=0;k<n*n;k++)pos.array[3*k+1]=(T.dem.h[k]-base)/1000*exa;
+  pos.needsUpdate=true;T.mesh.geometry.computeVertexNormals();
 }
 satInit();
 tabs();
