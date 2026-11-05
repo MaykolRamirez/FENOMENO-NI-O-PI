@@ -1,132 +1,169 @@
-# Monitor El Niño Perú
+# Inundaciones por El Niño en Tumbes y Piura
 
-Tablero web que muestra, día a día, cómo golpea el fenómeno de El Niño al Perú: lluvias de los últimos 15 días, pronóstico, riesgo por lluvia intensa (huaicos e inundaciones), temperatura del mar y cambios del terreno vistos desde satélite.
+Tablero público sobre la **exposición potencial** a inundaciones en **Tumbes y Piura**. Incluye:
 
-**Sitio web:** https://maykolramirez.github.io/FENOMENO-NI-O-PI/
-(se actualiza solo todos los días a las 6:30 a. m., hora de Lima)
+- la zona inundable (escenarios JRC de 1 en 10 y 1 en 100 años) y lo que detectó el radar Sentinel-1 en 2017, 2023 y en los últimos días;
+- población, edificaciones, colegios y establecimientos de salud potencialmente expuestos, por distrito (UBIGEO);
+- un panel de decisiones con peligro, exposición, vulnerabilidad y riesgo estimado;
+- un modelo experimental de emergencias por distrito y semana;
+- el monitoreo diario del mar frente al Perú.
 
-> Herramienta independiente, con fines académicos. **No es un producto oficial** del Estado peruano ni reemplaza los avisos de SENAMHI, INDECI, COEN o ENFEN.
+Proyecto integrador del Programa de Extensión Universitaria en Ciencia de Datos (PEU-CD) del INEI.
 
-Proyecto del Programa de Extensión Universitaria: Ciencia del Dato (PEU-CD), INEI, 2026. Inspirado en el [Monitor de incendios del Perú](https://alexanderquispe.github.io/incendios-peru/).
+- **Tablero 3D:** `dashboard/index.html` · **Mapa 2D sin GPU, panel y metadatos:** `dashboard/mapa2d.html`
+- **Sitio publicado:** https://marciashapiama.github.io/iapn-inei/ · mapa 2D: https://marciashapiama.github.io/iapn-inei/mapa2d.html
+- **Repositorio:** https://github.com/MarciaShapiama/iapn-inei
 
-## Por qué existe
+### Qué tiene el tablero
 
-El Niño 2026 es extremo: la anomalía de temperatura del mar en la región Niño 1+2 llegó a +5,4 °C a fines de octubre, por encima del máximo de 1997-98 (+4,0 °C). Las lluvias, los huaicos y las inundaciones que trae son un riesgo diario, pero la información está dispersa. Este tablero junta fuentes públicas y gratuitas en un solo lugar y responde tres preguntas: **cuánto ha llovido, qué se espera en los próximos días y cómo cambió el terreno**.
-
-## Qué muestra
-
-| Pestaña | Contenido |
+| Pestaña | Qué muestra |
 |---|---|
-| **Situación** | Titular del día, cifras clave, mapa del Perú por nivel de riesgo y rankings de los puntos con más riesgo y más lluvia sobre lo normal |
-| **Lluvias 15 días** | Tabla de 26 puntos con la lluvia diaria de los últimos 15 días, el pronóstico de 5 días y la comparación con el acumulado normal de esa fecha |
-| **Huaicos e inundaciones** | Una tarjeta por punto con su índice de riesgo (0–100) y sus tres componentes |
-| **Satélite antes/ahora** | Comparador deslizable de imágenes Sentinel-2 en seis zonas (color real, vegetación NDVI y agua NDWI, con la misma época del año anterior como referencia), **vista 3D** con la imagen sobre el relieve real y **agua detectada con radar Sentinel-1** de los últimos 15 o 30 días, que atraviesa las nubes |
-| **Mar y El Niño** | Anomalía semanal Niño 1+2 de los últimos 2 años, comparación con 1982-83, 1997-98, 2017 y 2023, temperatura del mar en 8 puertos e Índice Costero El Niño (ICEN) |
-| **Método y fuentes** | Fuentes, fórmula del índice y limitaciones |
+| Resumen | Las cifras principales en una frase (personas, edificaciones, colegios, salud, niños de 0 a 4 años, adultos de 65 o más, cultivos y carreteras), el estado oficial del ENFEN, lo que pasa esta semana y lo que pasó en 2017 y 2023 |
+| Mapa de inundación | Vista 3D sobre el relieve: zona inundable por profundidad, edificaciones, colegios y salud |
+| Antes y después | Fotos Sentinel-2 de 2017, 2023 y de estos días en Piura, Tumbes y Sechura, con comparador deslizable |
+| Alerta por distrito | Riesgo de emergencia en las próximas 4 semanas (modelo de machine learning), su validación y los modelos comparados |
+| Lluvia y ríos | Las 8 provincias de Tumbes y Piura: lluvia de 20 días frente a lo normal, caudal y pronóstico de 7 días |
+| El mar y El Niño | Anomalía diaria del mar (últimos 20 días), Niño 1+2 semanal e ICEN |
+| Método y fuentes | De dónde sale cada cifra, sus límites y los autores |
 
-## Fuentes de datos
+### Autores
 
-Todas son públicas y no requieren clave.
+Marcia, Christopher, Maykol y Luz Ángela.
 
-| Dato | Fuente |
+> «Expuesto» significa que está dentro o cerca de una zona inundable o de agua detectada por satélite. **No equivale a afectados ni damnificados**: esas cifras las registra INDECI/COEN. Un escenario de 1 en 100 años **no anuncia una inundación este año**. Este tablero **no emite alertas**: las alertas oficiales son de SENAMHI, ENFEN e INDECI.
+
+## Documentos
+
+| Documento | Contenido |
 |---|---|
-| Lluvia de los últimos 15 días y pronóstico de 5 días | [Open-Meteo](https://open-meteo.com/) (modelo, no pluviómetro) |
-| Climatología de lluvia 2010–2025 | Open-Meteo Archive (reanálisis ERA5) |
-| Temperatura del mar frente a la costa | Open-Meteo Marine |
-| Anomalía semanal Niño 1+2 | NOAA Climate Prediction Center |
-| Índice Costero El Niño (ICEN) | IGP / ENFEN |
-| Imágenes satelitales | Sentinel-2 L2A (Copernicus) vía [Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/) |
-| Agua (radar) | Sentinel-1 RTC (Copernicus) vía Microsoft Planetary Computer, polarización VV |
-| Relieve (elevación) | [AWS Terrain Tiles](https://registry.opendata.aws/terrain-tiles/) (formato Terrarium) |
-| Límites departamentales | INEI, [peru-geojson](https://github.com/juaneladio/peru-geojson) |
+| [docs/01_AUDITORIA_TECNICA_Y_DATOS.md](docs/01_AUDITORIA_TECNICA_Y_DATOS.md) | Arquitectura, fuentes y licencias, errores encontrados y corregidos, evidencia |
+| [docs/02_PLAN_MACHINE_LEARNING.md](docs/02_PLAN_MACHINE_LEARNING.md) | Casos A/B/C, experimento reproducido, incertidumbre, calibración y falsos negativos |
+| [docs/03_APORTE_AL_INEI.md](docs/03_APORTE_AL_INEI.md) | Opciones de aporte estadístico, indicador principal y gobernanza |
+| [docs/04_ESTADO_DEL_ARTE_Y_BIBLIOGRAFIA.md](docs/04_ESTADO_DEL_ARTE_Y_BIBLIOGRAFIA.md) | 21 referencias con DOI verificados (APA 7) |
+| [docs/05_POLITICAS_PUBLICAS.md](docs/05_POLITICAS_PUBLICAS.md) | 7 opciones de política vinculadas a los resultados |
+| [INFORME_FINAL_PROYECTO_INTEGRADOR.md](INFORME_FINAL_PROYECTO_INTEGRADOR.md) · `.docx` | Informe para la evaluación del curso (Markdown y Word), con resumen ejecutivo y preguntas del jurado |
+| `docs/avance_latex/avance_proyecto.tex` · `.pdf` | Informe de avance para el docente (LaTeX); se compila con `pdflatex` (dos pasadas) |
+| [docs/06_VALIDACION_Y_VIABILIDAD_EXPANSION.md](docs/06_VALIDACION_Y_VIABILIDAD_EXPANSION.md) | Validación del piloto contra INDECI y viabilidad de expandir al norte y a todo el Perú |
+| `docs/presentacion/presentacion_avance.tex` · `.pdf` | Presentación del avance (Beamer 16:9, 17 diapositivas) |
+| `docs/presentacion/presentacion_validacion_expansion.tex` · `.pdf` | Presentación de la validación con INDECI y la viabilidad de expansión (Beamer 16:9, 13 diapositivas) |
+| [docs/07_REFUERZO.md](docs/07_REFUERZO.md) | Padrón oficial de colegios (ESCALE) y verificación de pobreza e IDH contra el INEI y el PNUD |
+| [docs/modelo_inundacion.md](docs/modelo_inundacion.md) | Modelo de alerta (documento original del equipo) |
+| `docs/evidencia/` | Salidas de pruebas, auditoría de cifras, ML y verificación de DOI |
 
-## Cómo se calcula el índice de riesgo (0–100)
+## Instalación desde cero
 
-Mezcla tres señales respecto de lo normal en cada punto, cada una acotada entre 0 y 1:
-
-| Señal | Peso | Definición |
-|---|---:|---|
-| Intensidad reciente | 40 % | Mayor lluvia diaria de los últimos 3 días ÷ p99 de los días con lluvia de ese punto |
-| Pronóstico | 35 % | Mayor lluvia diaria prevista en los próximos 3 días ÷ el mismo p99 |
-| Saturación | 25 % | Lluvia acumulada de 15 días ÷ el doble del acumulado normal de esa fecha (mínimo 20 mm) |
-
-Niveles: **Bajo** < 25 · **Moderado** 25–49 · **Alto** 50–74 · **Muy alto** ≥ 75. El p99 se fija en al menos 5 mm para que una llovizna en el desierto no active la alerta. Lo normal sale de la climatología 2010–2025 de cada punto.
-
-## Limitaciones
-
-- **Es un indicador orientativo.** Mide lluvia intensa, no huaicos observados. Un huaico además depende de la quebrada, la pendiente y el suelo.
-- **Los pesos del índice no están calibrados** contra eventos pasados (2017, 2023). En zonas áridas, como Lima, puede marcar "Moderado" con lluvias pequeñas.
-- **La lluvia es de modelo**, no de pluviómetro: puede subestimar chubascos locales.
-- **Solo 26 puntos** (capitales departamentales, Callao y Chimbote): una quebrada concreta puede estar peor que su capital.
-- **No incluye reportes oficiales** de emergencias (INDECI/COEN) ni deslizamientos observados.
-- **El agua del radar es un indicador, no un mapa oficial de inundaciones.** No distingue una inundación de agua de riego o de un embalse nuevo, y en zonas secas el ruido de base llega a unas 8 ha por pasada. Las pasadas llegan cada 3 a 6 días, no a diario.
-- **El relieve 3D** usa una malla de unos 110 m: sirve para ver la forma del terreno, no para medir pendientes de detalle. En zonas planas (costa norte) el relieve se exagera hasta 8 veces para que se note.
-- **La imagen satelital "ahora"** es la menos nubosa de los últimos 30 días y puede ser anterior a las lluvias más recientes. Cada imagen muestra su fecha y su porcentaje de nubes. La costa nublada puede tapar zonas.
-- **"Antes" es la misma época del año anterior**, no necesariamente un estado previo al evento.
-- El último valor del ICEN es provisional.
-
-## Estructura del repositorio
-
-```
-FENOMENO-NI-O-PI/
-├── README.md
-├── LICENSE
-├── .gitignore
-├── requirements.txt
-├── .github/workflows/
-│   └── dashboard.yml          Actualiza datos y publica el sitio cada día
-├── src/
-│   ├── config.py              Rutas del proyecto
-│   ├── temperatura_mar.py     Niño 1+2 (NOAA) e ICEN (IGP)
-│   ├── clima_nino.py          Lluvia, climatología, mar e índice de riesgo
-│   ├── imagenes_satelite.py   Imágenes Sentinel-2 antes y ahora
-│   ├── relieve.py             Malla de elevación de cada zona para la vista 3D (se genera una vez)
-│   └── agua_radar.py          Agua nueva y permanente detectada con radar Sentinel-1
-├── data/
-│   ├── raw/                   nino12_semanal.csv, icen.csv
-│   └── clima/                 climatologia_precip.json (caché de lo "normal")
-├── docs/
-│   └── metodologia.md         Definiciones operativas, fórmula del índice y pendientes
-└── dashboard/                 Lo que se publica en la web
-    ├── index.html
-    └── data/                  lluvia.json, mar.json, resumen.json,
-                               departamentos.geojson, sat/ (imágenes) y dem/ (relieve)
-```
-
-## Cómo ejecutarlo en local
-
-Requiere Python 3.11 o superior.
+Requisitos: Python 3.11 o superior (probado con 3.11 en Actions y 3.14 en Windows) y git.
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/MarciaShapiama/iapn-inei.git
 ```
-
-Cada comando se ejecuta desde la carpeta `src/`, en este orden:
 
 ```bash
-python temperatura_mar.py      # Niño 1+2 e ICEN (data/raw)
-python clima_nino.py           # lluvia, mar e índice (dashboard/data); la primera vez calcula la climatología
-python imagenes_satelite.py    # imágenes Sentinel-2 (dashboard/data/sat); tarda unos minutos
-python relieve.py              # relieve de las zonas (dashboard/data/dem); solo hace falta una vez
-python agua_radar.py           # agua detectada con radar (dashboard/data/agua); tarda unos 5 minutos
+cd iapn-inei
 ```
 
-Para ver el tablero en el navegador, desde la raíz del repositorio:
+```bash
+python -m venv .venv
+```
+
+Activar el entorno: en Windows `.venv\Scripts\activate`; en Linux o macOS `source .venv/bin/activate`. Después:
+
+```bash
+pip install -r requirements.txt -r requirements-inundaciones.txt -r requirements-dev.txt
+```
+
+En Windows, si la consola muestra errores de acentos, defina `PYTHONIOENCODING=utf-8`.
+
+## Ver el tablero en su computadora
+
+Los datos ya calculados están en `dashboard/data/`. Hay que servirlos con un servidor HTTP: abrir el archivo con doble clic no funciona, porque el navegador bloquea `fetch`.
 
 ```bash
 python -m http.server 8765 --directory dashboard
 ```
 
-y abrir http://localhost:8765. Para recalcular el resumen sin descargar de nuevo: `python clima_nino.py --sin-red`.
+Abra http://localhost:8765/ (3D) o http://localhost:8765/mapa2d.html (2D). Para probar el respaldo sin aceleración gráfica abra `index.html?sin3d=1`.
 
-## Actualización automática
+## Actualizar los datos
 
-El archivo `.github/workflows/dashboard.yml` corre **todos los días a las 6:30 a. m. (Lima)** en los servidores de GitHub: descarga los datos, arma el sitio y lo publica en GitHub Pages. También se puede lanzar a mano desde la pestaña **Actions → Monitor El Niño → Run workflow**. Los pasos de temperatura del mar y de imágenes satelitales continúan aunque fallen, y en ese caso el sitio conserva los últimos archivos del repositorio.
+El orquestador `src/etl.py` corre los pasos en orden. Si un paso falla, lo registra en `data/registro/`, **conserva la última salida válida** y sigue con los demás. El estado de cada capa (`vigente`, `rezagado`, `no disponible`, `estimado`) se recalcula a partir de las fechas reales de los archivos.
 
-## Equipo
+| Perfil | Qué hace | Red | Tiempo aproximado |
+|---|---|---|---|
+| `python src/etl.py local` | Recalcula impacto, panel, metadatos y auditoría con los datos ya descargados | No | ~30 s |
+| `python src/etl.py diario` | Mar (NOAA), índices (CPC, IGP), BCRP, COES, lluvia y caudal (Open-Meteo) + tablero + metadatos | Sí | 5–45 min |
+| `python src/etl.py inundacion` | Exposición (WorldPop, Open Buildings, RENIPRESS, OSM, GADM, JRC) + Sentinel-1 + impacto + panel | Sí, varios GB | 30–120 min |
 
-Calle Rentería, Christopher Paul · Ramírez Santos, Maykol Ángel · Shapiama De La Cruz, Marcia · Mendizábal Huanca, Luz Ángela
+Pasos sueltos útiles:
 
-## Licencia
+| Comando | Qué hace |
+|---|---|
+| `python src/reparar_poblacion.py` | Verifica y corrige la alineación del ráster de población (idempotente) |
+| `python src/ubigeo.py` | Descarga la tabla UBIGEO y la empata con los distritos |
+| `python src/modelo_inundacion.py` | Reentrena y evalúa el modelo de emergencias |
+| `python src/ml_evaluacion.py` | Bootstrap por años, calibración y falsos negativos |
+| `python src/auditoria.py` | Regenera `docs/evidencia/auditoria_cifras.json` |
+| `python herramientas/md_a_docx.py` | Genera el informe en Word desde el Markdown |
+| `python herramientas/figuras_avance.py` | Regenera las figuras del informe LaTeX |
+| `python herramientas/validacion_indeci.py` | Validación externa con registros INDECI 2003-2024 |
+| `python herramientas/viabilidad_expansion.py` | Estima el costo de expandir a otros departamentos |
+| `python herramientas/figuras_presentacion.py` | Figuras de la presentación |
 
-Ver [LICENSE](LICENSE). Los datos pertenecen a sus fuentes originales (Open-Meteo, NOAA, IGP/ENFEN, Copernicus, INEI) y se usan según sus condiciones.
+### Variables de entorno (opcionales)
+
+| Variable | Por defecto | Uso |
+|---|---|---|
+| `IAPN_REINTENTOS` | 4 | Intentos por descarga |
+| `IAPN_ESPERA_BASE_S` | 5 | Espera inicial entre intentos (se duplica en cada intento, máximo 300 s) |
+| `IAPN_TIMEOUT_S` | 120 | Tiempo máximo por petición HTTP |
+| `IAPN_TIMEOUT_PASO_S` | 3600 | Tiempo máximo por paso del ETL |
+| `IAPN_USER_AGENT` | genérico del proyecto | Identificador del cliente HTTP |
+| `IAPN_HOY` | fecha de Lima | Fija «hoy» (AAAA-MM-DD) para que el cálculo de estados sea reproducible |
+| `IAPN_S1_UMBRAL_DB` | −17 | Umbral VV para agua (dB) |
+| `IAPN_S1_CAIDA_DB` | 3 | Caída mínima frente a la referencia seca (dB) |
+| `IAPN_S1_UMBRAL_MODO` | `fijo` | `otsu` = umbral adaptativo acotado a [−24, −14] dB |
+| `IAPN_S1_COMPUESTO` | `minimo` | `p10` = percentil 10 de las pasadas (menos sensible al moteado) |
+| `IAPN_URL_SITIO` | — | Hace que `tests/test_sitio.py` pruebe un sitio desplegado en lugar del local |
+
+## Pruebas
+
+```bash
+python -m pytest -q
+```
+
+Son 38 pruebas: unitarias (anillos, Otsu, referencia del radar, reintentos, estados); de integración de datos (sumas que concilian, acumulados que crecen, UBIGEO únicos, geometrías dentro de la caja, población alineada con las edificaciones, metadatos completos); y un smoke test del sitio con un servidor local. En GitHub Actions, el workflow **Pruebas** corre en cada push y después de cada actualización. Además, los workflows de actualización **no guardan** si las pruebas de datos fallan.
+
+## Automatización (GitHub Actions)
+
+| Workflow | Cuándo | Qué hace |
+|---|---|---|
+| `actualizar.yml` | Diario 13:20 UTC (8:20 Lima) | `etl.py diario` → pruebas → commit |
+| `inundaciones.yml` | Lunes y jueves | `etl.py inundacion` → pruebas → commit |
+| `base_modelo.yml` | Lunes | Base distrito-semana y modelo |
+| `pruebas.yml` | Push, PR y tras las actualizaciones | Estado de las capas (`::warning::` si hay datos rezagados) + pytest + smoke test del sitio publicado |
+| `pages.yml` | Push a `dashboard/` o tras cualquiera de las actualizaciones | Publica `dashboard/` en GitHub Pages |
+
+## Despliegue manual
+
+1. Ejecute `python src/etl.py local` y `python -m pytest -q`. Las pruebas deben pasar.
+2. Haga commit de `src/`, `dashboard/`, `data/`, `docs/` y `tests/`.
+3. Haga `git push` a `main`. `pages.yml` publica automáticamente. También puede lanzarlo a mano en *Actions → Publicar tablero → Run workflow*.
+4. Compruebe el sitio con `IAPN_URL_SITIO=https://marciashapiama.github.io/iapn-inei python -m pytest tests/test_sitio.py` (el workflow «Pruebas» usa automáticamente la cuenta dueña del repositorio).
+
+## Solución de fallos
+
+| Síntoma | Causa probable | Qué hacer |
+|---|---|---|
+| El mapa 3D sale en negro o muestra «no puede crear un contexto WebGL» | Navegador o máquina sin aceleración gráfica | Use `mapa2d.html`. No es un fallo del servidor |
+| «No se pudieron cargar los archivos del mapa» | El HTML se abrió sin servidor | `python -m http.server 8765 --directory dashboard` |
+| Una capa aparece `rezagado` | Falló la descarga de esa fuente o la fuente se retrasó | Revise `data/registro/*.json` y vuelva a correr el perfil; el tablero sigue mostrando el último dato válido |
+| `radar_vivo` aparece `no disponible` | Control de calidad fallido (por ejemplo, referencia seca solapada con el evento) | `python src/huellas.py vivo` y después `python src/etl.py local` |
+| `UnicodeEncodeError` en Windows | Consola en cp1252 | `set PYTHONIOENCODING=utf-8` |
+| Falla `test_poblacion_alineada_con_edificaciones` | Se volvió a descargar WorldPop con un recorte desalineado | `python src/reparar_poblacion.py` |
+| Overpass, ERDDAP u Open-Meteo devuelven 429 o 5xx | Límite de uso | Los reintentos son automáticos; espere y vuelva a correr |
+
+## Fuentes y licencias
+
+NOAA OISST v2.1 y CPC (dominio público) · IGP ICEN · BCRP · COES · Open-Meteo y GloFAS v4 (CC BY 4.0) · JRC CEMS-GloFAS flood hazard v2 (CC BY 4.0) · Copernicus Sentinel-1 vía Microsoft Planetary Computer · WorldPop 2026 (CC BY 4.0) · Google Open Buildings v3 (CC BY 4.0 / ODbL) · RENIPRESS, SUSALUD (datos abiertos) · OpenStreetMap (ODbL, © colaboradores de OSM) · DesInventar/INDECI · tabla UBIGEO de `jmcastagnetto/ubigeo-peru-aumentado` (MIT; pobreza 2018 INEI e IDH 2019 PNUD según el compilador) · límites GADM 4.1 (**uso académico y no comercial; no se ofrecen para descargar**). El detalle por capa está en `dashboard/data/metadatos.json`.
+
+Equipo: Christopher, Maykol, Marcia y Luz Ángela.

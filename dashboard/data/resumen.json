@@ -1,16 +1,1 @@
-{
- "corte": "2026-11-03 17:39",
- "titular": "Niño 1+2 en +5.4 °C (semana del 2026-10-28). 2 de 26 puntos con riesgo alto o muy alto por lluvia: Tumbes, Piura.",
- "niveles": {
-  "Bajo": 12,
-  "Moderado": 12,
-  "Alto": 1,
-  "Muy alto": 1
- },
- "lluvia_15d_costa_norte_mm": 102.2,
- "normal_15d_costa_norte_mm": 2.7,
- "lluvia_max_dia": {
-  "punto": "Tumbes",
-  "mm": 75.2
- }
-}
+{"actualizado":"2026-11-04 18:04 UTC","ultimo_dia_mar":"2026-11-03","dias_historico":21,"region_mas_calida":{"region":"Piura","anom":7.3,"magnitud":"Cálido extraordinario"},"norte_media":6.96,"regiones_calidas":11,"regiones_total":11,"nino12_semana":{"semana":"2026-10-28","valor":5.4},"nino34_semana":{"semana":"2026-10-28","valor":3.4},"icen_ultimo":{"fecha":"2026-08","valor":3.98,"magnitud":"Cálido extraordinario"},"magnitudes":[{"desde":-99,"hasta":0.4,"nombre":"Normal"},{"desde":0.4,"hasta":1.0,"nombre":"Cálido débil"},{"desde":1.0,"hasta":1.7,"nombre":"Cálido moderado"},{"desde":1.7,"hasta":3.0,"nombre":"Cálido fuerte"},{"desde":3.0,"hasta":99,"nombre":"Cálido extraordinario"}]}

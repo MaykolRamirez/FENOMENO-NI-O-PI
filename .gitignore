@@ -1,22 +1,7 @@
-# Python
+.venv/
 __pycache__/
 *.pyc
-.venv/
-venv/
+.pytest_cache/
 
-# R / editores
-.Rhistory
-.RData
-.vscode/
-.idea/
-.claude/
-
-# Sitio armado por el workflow (se genera en cada publicación)
-_site/
-
-# Sistema
-.DS_Store
-Thumbs.db
-
-# Datos crudos grandes (edificaciones, DEM); se regeneran con src/datos_tumbes.py
-data/crudo/
+# Datos no publicados del INEI (manzanas, censo): nunca subir
+docs_recibidos/
