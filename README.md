@@ -48,6 +48,7 @@ Marcia, Christopher, Maykol y Luz Ángela.
 | `docs/presentacion/presentacion_validacion_expansion.tex` · `.pdf` | Presentación de la validación con INDECI y la viabilidad de expansión (Beamer 16:9, 13 diapositivas) |
 | [docs/07_REFUERZO.md](docs/07_REFUERZO.md) | Padrón oficial de colegios (ESCALE) y verificación de pobreza e IDH contra el INEI y el PNUD |
 | [docs/08_VIVIENDAS_INEI.md](docs/08_VIVIENDAS_INEI.md) | Viviendas ocupadas del INEI por distrito: vulnerabilidad física y exposición a inundaciones |
+| [docs/09_EVENTOS_REPORTADOS.md](docs/09_EVENTOS_REPORTADOS.md) | Inundaciones reportadas en noticias: cómo aparecen en el tablero y prueba del radar con 13 eventos verificados |
 | [docs/modelo_inundacion.md](docs/modelo_inundacion.md) | Modelo de alerta (documento original del equipo) |
 | `docs/evidencia/` | Salidas de pruebas, auditoría de cifras, ML y verificación de DOI |
 
@@ -102,6 +103,8 @@ Pasos sueltos útiles:
 | `python src/reparar_poblacion.py` | Verifica y corrige la alineación del ráster de población (idempotente) |
 | `python src/ubigeo.py` | Descarga la tabla UBIGEO y la empata con los distritos |
 | `python src/modelo_inundacion.py` | Reentrena y evalúa el modelo de emergencias |
+| `python src/noticias.py` | Inundaciones reportadas en Tumbes y Piura (Google Noticias + catálogo verificado), con su verificación por radar; corre en el perfil `diario` |
+| `python herramientas/prueba_noticias.py` | Prueba del radar con cada evento de `data/eventos/catalogo_verificado.csv` (red, ~15 min) |
 | `python src/vivienda_inei.py` | Viviendas ocupadas del INEI por distrito: materiales precarios y exposición a inundaciones (necesita `docs_recibidos/`, que no se sube) |
 | `python src/ml_evaluacion.py` | Bootstrap por años, calibración y falsos negativos |
 | `python src/auditoria.py` | Regenera `docs/evidencia/auditoria_cifras.json` |
