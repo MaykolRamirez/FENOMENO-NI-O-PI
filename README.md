@@ -47,6 +47,7 @@ Marcia, Christopher, Maykol y Luz Ángela.
 | `docs/presentacion/presentacion_avance.tex` · `.pdf` | Presentación del avance (Beamer 16:9, 17 diapositivas) |
 | `docs/presentacion/presentacion_validacion_expansion.tex` · `.pdf` | Presentación de la validación con INDECI y la viabilidad de expansión (Beamer 16:9, 13 diapositivas) |
 | [docs/07_REFUERZO.md](docs/07_REFUERZO.md) | Padrón oficial de colegios (ESCALE) y verificación de pobreza e IDH contra el INEI y el PNUD |
+| [docs/08_VIVIENDAS_INEI.md](docs/08_VIVIENDAS_INEI.md) | Viviendas ocupadas del INEI por distrito: vulnerabilidad física y exposición a inundaciones |
 | [docs/modelo_inundacion.md](docs/modelo_inundacion.md) | Modelo de alerta (documento original del equipo) |
 | `docs/evidencia/` | Salidas de pruebas, auditoría de cifras, ML y verificación de DOI |
 
@@ -101,6 +102,7 @@ Pasos sueltos útiles:
 | `python src/reparar_poblacion.py` | Verifica y corrige la alineación del ráster de población (idempotente) |
 | `python src/ubigeo.py` | Descarga la tabla UBIGEO y la empata con los distritos |
 | `python src/modelo_inundacion.py` | Reentrena y evalúa el modelo de emergencias |
+| `python src/vivienda_inei.py` | Viviendas ocupadas del INEI por distrito: materiales precarios y exposición a inundaciones (necesita `docs_recibidos/`, que no se sube) |
 | `python src/ml_evaluacion.py` | Bootstrap por años, calibración y falsos negativos |
 | `python src/auditoria.py` | Regenera `docs/evidencia/auditoria_cifras.json` |
 | `python herramientas/md_a_docx.py` | Genera el informe en Word desde el Markdown |
