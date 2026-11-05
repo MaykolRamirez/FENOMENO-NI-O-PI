@@ -62,3 +62,12 @@ def test_tamanos_razonables():
     for f in (RAIZ / "dashboard" / "data").rglob("*"):
         if f.is_file():
             assert f.stat().st_size < 8_000_000, f.name
+
+
+def test_capas_del_rio(base):
+    """Punto 5: el mapa 2D carga rio.js con el agua permanente (JRC) y las vistas normal / 2017 / ahora / cortina."""
+    _, b = leer(f"{base}/mapa2d.html")
+    assert 'src="rio.js"' in b.decode("utf-8") and "Rio.iniciar" in b.decode("utf-8")
+    st, j = leer(f"{base}/rio.js")
+    t = j.decode("utf-8")
+    assert st == 200 and "global-surface-water" in t and all(v in t for v in ("normal:", '"2017":', "vivo:", "cortina:"))

@@ -57,7 +57,7 @@ tr[data-ub]:hover{background:color-mix(in srgb,var(--acento) 10%,transparent)}
 <header>
   <div>
     <h1>Inundaciones en Tumbes y Piura · mapa 2D y panel de decisiones</h1>
-    <p>Funciona sin aceleración gráfica (WebGL). Cada cifra indica su fuente, definición y estado. <a href="index.html">Volver al tablero 3D</a> · <a href="#metadatos">Metadatos</a> · <a href="#panel">Panel por distrito</a></p>
+    <p>Funciona sin aceleración gráfica (WebGL). Cada cifra indica su fuente, definición y estado. <a href="index.html">Volver al tablero 3D</a> · <a href="?rio=normal#rio">Río normal frente a El Niño</a> · <a href="#metadatos">Metadatos</a> · <a href="#panel">Panel por distrito</a></p>
   </div>
   <div id="estado-global" aria-live="polite">Cargando datos…</div>
 </header>
@@ -126,6 +126,7 @@ tr[data-ub]:hover{background:color-mix(in srgb,var(--acento) 10%,transparent)}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="rio.js"></script>
 <script>
 "use strict";
 const $=s=>document.querySelector(s);
@@ -185,6 +186,7 @@ async function inicio(){
   $("#c-ver").onclick=superponer; $("#c-quitar").onclick=()=>{S.comp.forEach(l=>mapa.removeLayer(l));S.comp=[];comparador()};
   tablaPanel(); metadatos(); comparador();
   await dibujarCapa(); actualizar(false);
+  if(typeof Rio!=="undefined")Rio.iniciar(); // punto 5: río normal frente a El Niño (rio.js)
 }
 
 function ponerBase(t){
