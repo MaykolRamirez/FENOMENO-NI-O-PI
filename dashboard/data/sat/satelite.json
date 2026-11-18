@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-11 17:52",
+ "generado": "2026-11-18 17:59",
  "zonas": [
   {
    "id": "bajo_piura",
@@ -47,10 +47,10 @@
     {
      "periodo": "hoy",
      "etiqueta": "Lo más reciente (últimos 45 días)",
-     "fecha": "2026-10-05",
-     "nubes_en_zona_pct": 38.0,
+     "fecha": "2026-11-14",
+     "nubes_en_zona_pct": 19.2,
      "agua_pct": 0.1,
-     "escena": "S2B_MSIL2A_20261005T155219_R111_T17MNQ_20261005T204634"
+     "escena": "S2B_MSIL2A_20261114T155219_R111_T17MNQ_20261114T204446"
     }
    ]
   },
