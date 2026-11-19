@@ -1,5 +1,5 @@
 {
- "calculado": "2026-11-16T18:38-05:00",
+ "calculado": "2026-11-19T17:32-05:00",
  "1_anillos_rp100": {
   "recalculado": {
    "colegios": {
@@ -47,11 +47,11 @@
     "personas_suma_departamentos": 57
    },
    "vivo": {
-    "edificaciones_total": 14,
-    "edificaciones_suma_departamentos": 14,
+    "edificaciones_total": 15,
+    "edificaciones_suma_departamentos": 15,
     "edificaciones_sin_distrito": 0,
-    "personas_total": 27,
-    "personas_suma_departamentos": 27
+    "personas_total": 29,
+    "personas_suma_departamentos": 29
    },
    "rp10": {
     "edificaciones_total": 108156,
@@ -174,47 +174,47 @@
    "fraccion_bruta_en_poligonos_distritales": 0.185
   },
   "vivo": {
-   "km2_mancha": 93.3,
-   "edificaciones": 14,
-   "personas": 27,
+   "km2_mancha": 99.8,
+   "edificaciones": 15,
+   "personas": 29,
    "qa": {
-    "km2_deteccion_bruta_caja": 682.3,
+    "km2_deteccion_bruta_caja": 901.6,
     "km2_agua_permanente_tierra": 102.5,
-    "km2_tras_mascara_tierra_y_limpieza": 93.3,
-    "fraccion_retenida": 0.137,
+    "km2_tras_mascara_tierra_y_limpieza": 99.8,
+    "fraccion_retenida": 0.111,
     "umbral_db": -17.0,
     "caida_db": 3.0,
     "compuesto_evento": "minimo",
     "referencia": [
      "2026-08-01",
-     "2026-10-22"
+     "2026-10-25"
     ],
     "referencia_solapa_evento": false
    },
-   "imagenes": 15,
+   "imagenes": 14,
    "primera_y_ultima_imagen": [
-    "2026-10-24",
-    "2026-11-15"
+    "2026-10-28",
+    "2026-11-17"
    ],
    "top5_distritos_por_km2": [
     {
-     "Sechura": 86.71
+     "Sechura": 92.98
     },
     {
-     "La Brea": 2.2
+     "La Brea": 2.23
     },
     {
-     "Tumbes": 0.86
+     "Tumbes": 0.91
     },
     {
-     "Castilla": 0.77
+     "Castilla": 0.69
     },
     {
-     "Zarumilla": 0.48
+     "Zarumilla": 0.56
     }
    ],
-   "fraccion_en_sechura": 0.929,
-   "fraccion_bruta_en_poligonos_distritales": 0.141
+   "fraccion_en_sechura": 0.932,
+   "fraccion_bruta_en_poligonos_distritales": 0.114
   }
  },
  "5_poblacion": {
