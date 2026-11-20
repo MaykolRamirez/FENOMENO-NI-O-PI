@@ -360,25 +360,26 @@ fecha,codigo,serie,valor
 2024-11,PN01728AM,Producción nacional (PBI),4.382
 2024-12,PN01728AM,Producción nacional (PBI),5.066
 2025-01,PN01728AM,Producción nacional (PBI),4.403
-2025-02,PN01728AM,Producción nacional (PBI),2.831
-2025-03,PN01728AM,Producción nacional (PBI),4.774
-2025-04,PN01728AM,Producción nacional (PBI),1.3
-2025-05,PN01728AM,Producción nacional (PBI),2.022
-2025-06,PN01728AM,Producción nacional (PBI),4.94
-2025-07,PN01728AM,Producción nacional (PBI),3.551
-2025-08,PN01728AM,Producción nacional (PBI),3.165
-2025-09,PN01728AM,Producción nacional (PBI),4.393
-2025-10,PN01728AM,Producción nacional (PBI),4.176
-2025-11,PN01728AM,Producción nacional (PBI),1.589
-2025-12,PN01728AM,Producción nacional (PBI),4.141
-2026-01,PN01728AM,Producción nacional (PBI),3.756
-2026-02,PN01728AM,Producción nacional (PBI),3.68
-2026-03,PN01728AM,Producción nacional (PBI),3.268
-2026-04,PN01728AM,Producción nacional (PBI),3.808
-2026-05,PN01728AM,Producción nacional (PBI),2.175
-2026-06,PN01728AM,Producción nacional (PBI),1.751
-2026-07,PN01728AM,Producción nacional (PBI),3.559
-2026-08,PN01728AM,Producción nacional (PBI),3.233
+2025-02,PN01728AM,Producción nacional (PBI),2.855
+2025-03,PN01728AM,Producción nacional (PBI),4.831
+2025-04,PN01728AM,Producción nacional (PBI),1.374
+2025-05,PN01728AM,Producción nacional (PBI),1.994
+2025-06,PN01728AM,Producción nacional (PBI),5.058
+2025-07,PN01728AM,Producción nacional (PBI),3.675
+2025-08,PN01728AM,Producción nacional (PBI),2.609
+2025-09,PN01728AM,Producción nacional (PBI),4.502
+2025-10,PN01728AM,Producción nacional (PBI),4.284
+2025-11,PN01728AM,Producción nacional (PBI),1.642
+2025-12,PN01728AM,Producción nacional (PBI),4.076
+2026-01,PN01728AM,Producción nacional (PBI),3.781
+2026-02,PN01728AM,Producción nacional (PBI),3.718
+2026-03,PN01728AM,Producción nacional (PBI),3.408
+2026-04,PN01728AM,Producción nacional (PBI),3.946
+2026-05,PN01728AM,Producción nacional (PBI),2.444
+2026-06,PN01728AM,Producción nacional (PBI),2.056
+2026-07,PN01728AM,Producción nacional (PBI),3.658
+2026-08,PN01728AM,Producción nacional (PBI),3.317
+2026-09,PN01728AM,Producción nacional (PBI),2.429
 1995-01,PN01713AM,Agropecuario,11.593
 1995-02,PN01713AM,Agropecuario,9.193
 1995-03,PN01713AM,Agropecuario,7.403
@@ -739,26 +740,27 @@ fecha,codigo,serie,valor
 2024-10,PN01713AM,Agropecuario,15.731
 2024-11,PN01713AM,Agropecuario,13.916
 2024-12,PN01713AM,Agropecuario,7.965
-2025-01,PN01713AM,Agropecuario,3.768
-2025-02,PN01713AM,Agropecuario,5.875
-2025-03,PN01713AM,Agropecuario,4.096
-2025-04,PN01713AM,Agropecuario,-6.666
-2025-05,PN01713AM,Agropecuario,2.944
-2025-06,PN01713AM,Agropecuario,14.078
-2025-07,PN01713AM,Agropecuario,12.698
-2025-08,PN01713AM,Agropecuario,12.69
-2025-09,PN01713AM,Agropecuario,15.148
-2025-10,PN01713AM,Agropecuario,2.829
-2025-11,PN01713AM,Agropecuario,-0.507
-2025-12,PN01713AM,Agropecuario,4.623
-2026-01,PN01713AM,Agropecuario,4.565
-2026-02,PN01713AM,Agropecuario,0.258
-2026-03,PN01713AM,Agropecuario,-0.23
-2026-04,PN01713AM,Agropecuario,0.227
-2026-05,PN01713AM,Agropecuario,2.202
-2026-06,PN01713AM,Agropecuario,-8.116
-2026-07,PN01713AM,Agropecuario,-1.231
-2026-08,PN01713AM,Agropecuario,3.373
+2025-01,PN01713AM,Agropecuario,3.571
+2025-02,PN01713AM,Agropecuario,5.984
+2025-03,PN01713AM,Agropecuario,4.108
+2025-04,PN01713AM,Agropecuario,-6.675
+2025-05,PN01713AM,Agropecuario,2.987
+2025-06,PN01713AM,Agropecuario,13.951
+2025-07,PN01713AM,Agropecuario,12.703
+2025-08,PN01713AM,Agropecuario,12.611
+2025-09,PN01713AM,Agropecuario,15.243
+2025-10,PN01713AM,Agropecuario,2.995
+2025-11,PN01713AM,Agropecuario,-0.609
+2025-12,PN01713AM,Agropecuario,4.432
+2026-01,PN01713AM,Agropecuario,5.164
+2026-02,PN01713AM,Agropecuario,0.948
+2026-03,PN01713AM,Agropecuario,1.585
+2026-04,PN01713AM,Agropecuario,1.535
+2026-05,PN01713AM,Agropecuario,4.46
+2026-06,PN01713AM,Agropecuario,-5.381
+2026-07,PN01713AM,Agropecuario,0.111
+2026-08,PN01713AM,Agropecuario,4.946
+2026-09,PN01713AM,Agropecuario,-5.438
 1995-01,PN01716AM,Pesca,74.693
 1995-02,PN01716AM,Pesca,62.352
 1995-03,PN01716AM,Pesca,-53.842
@@ -1139,6 +1141,7 @@ fecha,codigo,serie,valor
 2026-06,PN01716AM,Pesca,-51.937
 2026-07,PN01716AM,Pesca,-27.439
 2026-08,PN01716AM,Pesca,-17.328
+2026-09,PN01716AM,Pesca,2.84
 1995-01,PN01717AM,Minería e Hidrocarburos,2.861
 1995-02,PN01717AM,Minería e Hidrocarburos,3.217
 1995-03,PN01717AM,Minería e Hidrocarburos,4.941
@@ -1499,26 +1502,27 @@ fecha,codigo,serie,valor
 2024-10,PN01717AM,Minería e Hidrocarburos,-0.982
 2024-11,PN01717AM,Minería e Hidrocarburos,-0.912
 2024-12,PN01717AM,Minería e Hidrocarburos,3.046
-2025-01,PN01717AM,Minería e Hidrocarburos,2.835
-2025-02,PN01717AM,Minería e Hidrocarburos,-0.405
+2025-01,PN01717AM,Minería e Hidrocarburos,2.838
+2025-02,PN01717AM,Minería e Hidrocarburos,-0.41
 2025-03,PN01717AM,Minería e Hidrocarburos,7.826
 2025-04,PN01717AM,Minería e Hidrocarburos,8.954
 2025-05,PN01717AM,Minería e Hidrocarburos,-6.939
-2025-06,PN01717AM,Minería e Hidrocarburos,1.047
-2025-07,PN01717AM,Minería e Hidrocarburos,2.328
-2025-08,PN01717AM,Minería e Hidrocarburos,1.668
-2025-09,PN01717AM,Minería e Hidrocarburos,2.621
-2025-10,PN01717AM,Minería e Hidrocarburos,7.426
-2025-11,PN01717AM,Minería e Hidrocarburos,-5.845
+2025-06,PN01717AM,Minería e Hidrocarburos,1.032
+2025-07,PN01717AM,Minería e Hidrocarburos,2.351
+2025-08,PN01717AM,Minería e Hidrocarburos,1.717
+2025-09,PN01717AM,Minería e Hidrocarburos,2.633
+2025-10,PN01717AM,Minería e Hidrocarburos,7.439
+2025-11,PN01717AM,Minería e Hidrocarburos,-5.836
 2025-12,PN01717AM,Minería e Hidrocarburos,-2.486
-2026-01,PN01717AM,Minería e Hidrocarburos,3.333
-2026-02,PN01717AM,Minería e Hidrocarburos,-1.046
-2026-03,PN01717AM,Minería e Hidrocarburos,-4.448
-2026-04,PN01717AM,Minería e Hidrocarburos,-3.161
-2026-05,PN01717AM,Minería e Hidrocarburos,2.894
-2026-06,PN01717AM,Minería e Hidrocarburos,-2.18
-2026-07,PN01717AM,Minería e Hidrocarburos,0.245
-2026-08,PN01717AM,Minería e Hidrocarburos,-5.533
+2026-01,PN01717AM,Minería e Hidrocarburos,3.331
+2026-02,PN01717AM,Minería e Hidrocarburos,-1.043
+2026-03,PN01717AM,Minería e Hidrocarburos,-4.486
+2026-04,PN01717AM,Minería e Hidrocarburos,-3.115
+2026-05,PN01717AM,Minería e Hidrocarburos,2.994
+2026-06,PN01717AM,Minería e Hidrocarburos,-1.76
+2026-07,PN01717AM,Minería e Hidrocarburos,0.391
+2026-08,PN01717AM,Minería e Hidrocarburos,-5.485
+2026-09,PN01717AM,Minería e Hidrocarburos,-6.323
 1995-01,PN01720AM,Manufactura,28.08
 1995-02,PN01720AM,Manufactura,24.387
 1995-03,PN01720AM,Manufactura,-3.534
@@ -1891,14 +1895,15 @@ fecha,codigo,serie,valor
 2025-10,PN01720AM,Manufactura,5.848
 2025-11,PN01720AM,Manufactura,-2.251
 2025-12,PN01720AM,Manufactura,5.268
-2026-01,PN01720AM,Manufactura,-0.883
-2026-02,PN01720AM,Manufactura,2.708
-2026-03,PN01720AM,Manufactura,3.459
-2026-04,PN01720AM,Manufactura,1.58
-2026-05,PN01720AM,Manufactura,-9.856
-2026-06,PN01720AM,Manufactura,-6.191
-2026-07,PN01720AM,Manufactura,-1.807
-2026-08,PN01720AM,Manufactura,4.182
+2026-01,PN01720AM,Manufactura,-0.885
+2026-02,PN01720AM,Manufactura,2.775
+2026-03,PN01720AM,Manufactura,3.62
+2026-04,PN01720AM,Manufactura,1.765
+2026-05,PN01720AM,Manufactura,-9.903
+2026-06,PN01720AM,Manufactura,-6.136
+2026-07,PN01720AM,Manufactura,-2.074
+2026-08,PN01720AM,Manufactura,3.895
+2026-09,PN01720AM,Manufactura,0.716
 1995-01,PN01723AM,Electricidad y Agua,8.536
 1995-02,PN01723AM,Electricidad y Agua,2.182
 1995-03,PN01723AM,Electricidad y Agua,3.425
@@ -2271,14 +2276,15 @@ fecha,codigo,serie,valor
 2025-10,PN01723AM,Electricidad y Agua,3.671
 2025-11,PN01723AM,Electricidad y Agua,1.062
 2025-12,PN01723AM,Electricidad y Agua,2.66
-2026-01,PN01723AM,Electricidad y Agua,4.454
-2026-02,PN01723AM,Electricidad y Agua,3.363
-2026-03,PN01723AM,Electricidad y Agua,1.233
-2026-04,PN01723AM,Electricidad y Agua,4.822
-2026-05,PN01723AM,Electricidad y Agua,5.224
-2026-06,PN01723AM,Electricidad y Agua,6.825
-2026-07,PN01723AM,Electricidad y Agua,7.304
-2026-08,PN01723AM,Electricidad y Agua,6.607
+2026-01,PN01723AM,Electricidad y Agua,4.455
+2026-02,PN01723AM,Electricidad y Agua,3.364
+2026-03,PN01723AM,Electricidad y Agua,1.234
+2026-04,PN01723AM,Electricidad y Agua,4.82
+2026-05,PN01723AM,Electricidad y Agua,5.196
+2026-06,PN01723AM,Electricidad y Agua,6.532
+2026-07,PN01723AM,Electricidad y Agua,7.296
+2026-08,PN01723AM,Electricidad y Agua,6.632
+2026-09,PN01723AM,Electricidad y Agua,7.22
 1995-01,PN01724AM,Construcción,42.919
 1995-02,PN01724AM,Construcción,45.007
 1995-03,PN01724AM,Construcción,29.552
@@ -2639,26 +2645,27 @@ fecha,codigo,serie,valor
 2024-10,PN01724AM,Construcción,6.509
 2024-11,PN01724AM,Construcción,-1.206
 2024-12,PN01724AM,Construcción,-0.941
-2025-01,PN01724AM,Construcción,4.901
-2025-02,PN01724AM,Construcción,6.2
-2025-03,PN01724AM,Construcción,5.635
-2025-04,PN01724AM,Construcción,-1.112
-2025-05,PN01724AM,Construcción,6.469
-2025-06,PN01724AM,Construcción,9.937
-2025-07,PN01724AM,Construcción,5.514
-2025-08,PN01724AM,Construcción,3.642
-2025-09,PN01724AM,Construcción,10.326
-2025-10,PN01724AM,Construcción,4.582
+2025-01,PN01724AM,Construcción,4.903
+2025-02,PN01724AM,Construcción,6.178
+2025-03,PN01724AM,Construcción,5.546
+2025-04,PN01724AM,Construcción,-1.347
+2025-05,PN01724AM,Construcción,6.391
+2025-06,PN01724AM,Construcción,9.684
+2025-07,PN01724AM,Construcción,5.432
+2025-08,PN01724AM,Construcción,3.665
+2025-09,PN01724AM,Construcción,10.458
+2025-10,PN01724AM,Construcción,4.587
 2025-11,PN01724AM,Construcción,9.916
-2025-12,PN01724AM,Construcción,12.013
-2026-01,PN01724AM,Construcción,15.489
-2026-02,PN01724AM,Construcción,8.668
-2026-03,PN01724AM,Construcción,15.248
-2026-04,PN01724AM,Construcción,12.763
-2026-05,PN01724AM,Construcción,4.794
-2026-06,PN01724AM,Construcción,9.036
-2026-07,PN01724AM,Construcción,9.851
-2026-08,PN01724AM,Construcción,10.344
+2025-12,PN01724AM,Construcción,12.014
+2026-01,PN01724AM,Construcción,15.436
+2026-02,PN01724AM,Construcción,8.771
+2026-03,PN01724AM,Construcción,15.382
+2026-04,PN01724AM,Construcción,13.043
+2026-05,PN01724AM,Construcción,5.993
+2026-06,PN01724AM,Construcción,9.377
+2026-07,PN01724AM,Construcción,9.885
+2026-08,PN01724AM,Construcción,10.351
+2026-09,PN01724AM,Construcción,8.84
 1995-01,PN01725AM,Comercio,20.943
 1995-02,PN01725AM,Comercio,18.379
 1995-03,PN01725AM,Comercio,17.336
@@ -3039,6 +3046,7 @@ fecha,codigo,serie,valor
 2026-06,PN01725AM,Comercio,7.806
 2026-07,PN01725AM,Comercio,6.788
 2026-08,PN01725AM,Comercio,6.893
+2026-09,PN01725AM,Comercio,6.292
 1995-01,PN01726AM,Otros Servicios,2.952
 1995-02,PN01726AM,Otros Servicios,2.123
 1995-03,PN01726AM,Otros Servicios,0.739
@@ -3389,36 +3397,37 @@ fecha,codigo,serie,valor
 2023-12,PN01726AM,Otros Servicios,0.682
 2024-01,PN01726AM,Otros Servicios,1.203
 2024-02,PN01726AM,Otros Servicios,1.781
-2024-03,PN01726AM,Otros Servicios,0.992
+2024-03,PN01726AM,Otros Servicios,0.993
 2024-04,PN01726AM,Otros Servicios,2.787
-2024-05,PN01726AM,Otros Servicios,2.44
+2024-05,PN01726AM,Otros Servicios,2.441
 2024-06,PN01726AM,Otros Servicios,3.244
-2024-07,PN01726AM,Otros Servicios,3.884
+2024-07,PN01726AM,Otros Servicios,3.885
 2024-08,PN01726AM,Otros Servicios,3.365
-2024-09,PN01726AM,Otros Servicios,4.261
+2024-09,PN01726AM,Otros Servicios,4.26
 2024-10,PN01726AM,Otros Servicios,3.443
-2024-11,PN01726AM,Otros Servicios,3.828
-2024-12,PN01726AM,Otros Servicios,3.981
-2025-01,PN01726AM,Otros Servicios,3.458
-2025-02,PN01726AM,Otros Servicios,2.839
-2025-03,PN01726AM,Otros Servicios,3.629
-2025-04,PN01726AM,Otros Servicios,2.242
-2025-05,PN01726AM,Otros Servicios,2.981
-2025-06,PN01726AM,Otros Servicios,1.908
-2025-07,PN01726AM,Otros Servicios,2.0
-2025-08,PN01726AM,Otros Servicios,4.216
-2025-09,PN01726AM,Otros Servicios,2.603
-2025-10,PN01726AM,Otros Servicios,2.625
-2025-11,PN01726AM,Otros Servicios,2.918
-2025-12,PN01726AM,Otros Servicios,3.563
-2026-01,PN01726AM,Otros Servicios,3.0
-2026-02,PN01726AM,Otros Servicios,3.463
-2026-03,PN01726AM,Otros Servicios,2.898
-2026-04,PN01726AM,Otros Servicios,3.085
-2026-05,PN01726AM,Otros Servicios,3.671
-2026-06,PN01726AM,Otros Servicios,3.805
-2026-07,PN01726AM,Otros Servicios,3.726
-2026-08,PN01726AM,Otros Servicios,3.245
+2024-11,PN01726AM,Otros Servicios,3.827
+2024-12,PN01726AM,Otros Servicios,3.98
+2025-01,PN01726AM,Otros Servicios,3.482
+2025-02,PN01726AM,Otros Servicios,2.884
+2025-03,PN01726AM,Otros Servicios,3.769
+2025-04,PN01726AM,Otros Servicios,2.457
+2025-05,PN01726AM,Otros Servicios,2.91
+2025-06,PN01726AM,Otros Servicios,2.257
+2025-07,PN01726AM,Otros Servicios,2.299
+2025-08,PN01726AM,Otros Servicios,2.895
+2025-09,PN01726AM,Otros Servicios,2.822
+2025-10,PN01726AM,Otros Servicios,2.858
+2025-11,PN01726AM,Otros Servicios,3.057
+2025-12,PN01726AM,Otros Servicios,3.436
+2026-01,PN01726AM,Otros Servicios,2.989
+2026-02,PN01726AM,Otros Servicios,3.428
+2026-03,PN01726AM,Otros Servicios,2.899
+2026-04,PN01726AM,Otros Servicios,3.076
+2026-05,PN01726AM,Otros Servicios,3.7
+2026-06,PN01726AM,Otros Servicios,3.808
+2026-07,PN01726AM,Otros Servicios,3.786
+2026-08,PN01726AM,Otros Servicios,3.288
+2026-09,PN01726AM,Otros Servicios,3.274
 1995-01,PN01727AM,Derechos de Importación y Otros Impuestos,12.003
 1995-02,PN01727AM,Derechos de Importación y Otros Impuestos,15.258
 1995-03,PN01727AM,Derechos de Importación y Otros Impuestos,15.119
@@ -3766,36 +3775,37 @@ fecha,codigo,serie,valor
 2023-09,PN01727AM,Derechos de Importación y Otros Impuestos,0.252
 2023-10,PN01727AM,Derechos de Importación y Otros Impuestos,0.563
 2023-11,PN01727AM,Derechos de Importación y Otros Impuestos,-5.001
-2023-12,PN01727AM,Derechos de Importación y Otros Impuestos,-1.878
-2024-01,PN01727AM,Derechos de Importación y Otros Impuestos,2.702
-2024-02,PN01727AM,Derechos de Importación y Otros Impuestos,1.189
-2024-03,PN01727AM,Derechos de Importación y Otros Impuestos,-0.597
-2024-04,PN01727AM,Derechos de Importación y Otros Impuestos,6.759
-2024-05,PN01727AM,Derechos de Importación y Otros Impuestos,2.552
-2024-06,PN01727AM,Derechos de Importación y Otros Impuestos,-4.483
-2024-07,PN01727AM,Derechos de Importación y Otros Impuestos,8.019
-2024-08,PN01727AM,Derechos de Importación y Otros Impuestos,4.388
-2024-09,PN01727AM,Derechos de Importación y Otros Impuestos,2.603
-2024-10,PN01727AM,Derechos de Importación y Otros Impuestos,7.055
-2024-11,PN01727AM,Derechos de Importación y Otros Impuestos,8.92
-2024-12,PN01727AM,Derechos de Importación y Otros Impuestos,8.375
-2025-01,PN01727AM,Derechos de Importación y Otros Impuestos,10.584
-2025-02,PN01727AM,Derechos de Importación y Otros Impuestos,4.672
-2025-03,PN01727AM,Derechos de Importación y Otros Impuestos,7.378
+2023-12,PN01727AM,Derechos de Importación y Otros Impuestos,-1.879
+2024-01,PN01727AM,Derechos de Importación y Otros Impuestos,2.699
+2024-02,PN01727AM,Derechos de Importación y Otros Impuestos,1.187
+2024-03,PN01727AM,Derechos de Importación y Otros Impuestos,-0.599
+2024-04,PN01727AM,Derechos de Importación y Otros Impuestos,6.756
+2024-05,PN01727AM,Derechos de Importación y Otros Impuestos,2.548
+2024-06,PN01727AM,Derechos de Importación y Otros Impuestos,-4.485
+2024-07,PN01727AM,Derechos de Importación y Otros Impuestos,8.018
+2024-08,PN01727AM,Derechos de Importación y Otros Impuestos,4.386
+2024-09,PN01727AM,Derechos de Importación y Otros Impuestos,2.606
+2024-10,PN01727AM,Derechos de Importación y Otros Impuestos,7.057
+2024-11,PN01727AM,Derechos de Importación y Otros Impuestos,8.921
+2024-12,PN01727AM,Derechos de Importación y Otros Impuestos,8.384
+2025-01,PN01727AM,Derechos de Importación y Otros Impuestos,10.592
+2025-02,PN01727AM,Derechos de Importación y Otros Impuestos,4.679
+2025-03,PN01727AM,Derechos de Importación y Otros Impuestos,7.383
 2025-04,PN01727AM,Derechos de Importación y Otros Impuestos,1.717
-2025-05,PN01727AM,Derechos de Importación y Otros Impuestos,7.054
+2025-05,PN01727AM,Derechos de Importación y Otros Impuestos,7.059
 2025-06,PN01727AM,Derechos de Importación y Otros Impuestos,11.457
-2025-07,PN01727AM,Derechos de Importación y Otros Impuestos,5.812
-2025-08,PN01727AM,Derechos de Importación y Otros Impuestos,6.461
-2025-09,PN01727AM,Derechos de Importación y Otros Impuestos,6.294
-2025-10,PN01727AM,Derechos de Importación y Otros Impuestos,5.009
-2025-11,PN01727AM,Derechos de Importación y Otros Impuestos,5.349
-2025-12,PN01727AM,Derechos de Importación y Otros Impuestos,7.244
-2026-01,PN01727AM,Derechos de Importación y Otros Impuestos,6.17
-2026-02,PN01727AM,Derechos de Importación y Otros Impuestos,8.841
-2026-03,PN01727AM,Derechos de Importación y Otros Impuestos,10.717
-2026-04,PN01727AM,Derechos de Importación y Otros Impuestos,12.922
-2026-05,PN01727AM,Derechos de Importación y Otros Impuestos,10.552
-2026-06,PN01727AM,Derechos de Importación y Otros Impuestos,6.522
-2026-07,PN01727AM,Derechos de Importación y Otros Impuestos,9.703
-2026-08,PN01727AM,Derechos de Importación y Otros Impuestos,4.334
+2025-07,PN01727AM,Derechos de Importación y Otros Impuestos,5.816
+2025-08,PN01727AM,Derechos de Importación y Otros Impuestos,6.367
+2025-09,PN01727AM,Derechos de Importación y Otros Impuestos,6.301
+2025-10,PN01727AM,Derechos de Importación y Otros Impuestos,5.011
+2025-11,PN01727AM,Derechos de Importación y Otros Impuestos,5.352
+2025-12,PN01727AM,Derechos de Importación y Otros Impuestos,7.239
+2026-01,PN01727AM,Derechos de Importación y Otros Impuestos,6.171
+2026-02,PN01727AM,Derechos de Importación y Otros Impuestos,8.861
+2026-03,PN01727AM,Derechos de Importación y Otros Impuestos,10.888
+2026-04,PN01727AM,Derechos de Importación y Otros Impuestos,13.013
+2026-05,PN01727AM,Derechos de Importación y Otros Impuestos,10.562
+2026-06,PN01727AM,Derechos de Importación y Otros Impuestos,6.607
+2026-07,PN01727AM,Derechos de Importación y Otros Impuestos,9.674
+2026-08,PN01727AM,Derechos de Importación y Otros Impuestos,4.354
+2026-09,PN01727AM,Derechos de Importación y Otros Impuestos,6.881
