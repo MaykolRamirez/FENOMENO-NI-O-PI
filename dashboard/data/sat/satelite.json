@@ -1,5 +1,5 @@
 {
- "generado": "2026-11-18 17:59",
+ "generado": "2026-11-25 19:33",
  "zonas": [
   {
    "id": "bajo_piura",
@@ -100,10 +100,10 @@
     {
      "periodo": "hoy",
      "etiqueta": "Lo más reciente (últimos 45 días)",
-     "fecha": "2026-10-05",
-     "nubes_en_zona_pct": 0.7,
-     "agua_pct": 0.2,
-     "escena": "S2B_MSIL2A_20261005T155219_R111_T17MNR_20261005T204634"
+     "fecha": "2026-10-29",
+     "nubes_en_zona_pct": 9.6,
+     "agua_pct": 0.0,
+     "escena": "S2A_MSIL2A_20261029T153631_R068_T17MNS_20261029T214205"
     }
    ]
   },
@@ -153,10 +153,10 @@
     {
      "periodo": "hoy",
      "etiqueta": "Lo más reciente (últimos 45 días)",
-     "fecha": "2026-10-09",
-     "nubes_en_zona_pct": 45.7,
+     "fecha": "2026-10-19",
+     "nubes_en_zona_pct": 54.0,
      "agua_pct": 0.0,
-     "escena": "S2A_MSIL2A_20261009T153641_R068_T17MNP_20261009T215605"
+     "escena": "S2A_MSIL2A_20261019T154001_R068_T17MNP_20261019T214121"
     }
    ]
   }
