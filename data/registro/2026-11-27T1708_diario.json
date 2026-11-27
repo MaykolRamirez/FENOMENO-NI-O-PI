@@ -1,0 +1,104 @@
+{
+ "perfil": "diario",
+ "inicio": "2026-11-27T17:08-05:00",
+ "fin": "2026-11-27T17:38-05:00",
+ "pasos": [
+  {
+   "paso": "descargar_mar.py",
+   "codigo": 0,
+   "ok": true,
+   "parcial": false,
+   "segundos": 1772.8,
+   "salida_final": [
+    "  ncdcOisst21NrtAgg_LonPM180 -> HTTPSConnectionPool(host='coastwatch.pfeg.noaa.gov', port=443): Max retries exceeded with url: /erddap/griddap/ncdcOisst21NrtAgg_LonPM180.csv?anom%5B(2026-11-25):1:(2026-11-25)%5D%5B(0.0)%5D%5B(-19.0):2:(1.0)%5D%5B(-86.0):2:(-70.0)%5D (Caused by NewConnectionError(\"HTTPSConnection(host='coastwatch.pfeg.noaa.gov', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\")), reintento 3",
+    "  ncdcOisst21Agg_LonPM180 -> HTTPSConnectionPool(host='coastwatch.pfeg.noaa.gov', port=443): Max retries exceeded with url: /erddap/griddap/ncdcOisst21Agg_LonPM180.csv?anom%5B(2026-11-25):1:(2026-11-25)%5D%5B(0.0)%5D%5B(-19.0):2:(1.0)%5D%5B(-86.0):2:(-70.0)%5D (Caused by NewConnectionError(\"HTTPSConnection(host='coastwatch.pfeg.noaa.gov', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\")), reintento 1",
+    "  ncdcOisst21Agg_LonPM180 -> HTTPSConnectionPool(host='coastwatch.pfeg.noaa.gov', port=443): Max retries exceeded with url: /erddap/griddap/ncdcOisst21Agg_LonPM180.csv?anom%5B(2026-11-25):1:(2026-11-25)%5D%5B(0.0)%5D%5B(-19.0):2:(1.0)%5D%5B(-86.0):2:(-70.0)%5D (Caused by NewConnectionError(\"HTTPSConnection(host='coastwatch.pfeg.noaa.gov', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\")), reintento 2",
+    "  ncdcOisst21Agg_LonPM180 -> HTTPSConnectionPool(host='coastwatch.pfeg.noaa.gov', port=443): Read timed out. (read timeout=120), reintento 3",
+    "  ncdcOisst21Agg_LonPM180 -> HTTPSConnectionPool(host='coastwatch.pfeg.noaa.gov', port=443): Max retries exceeded with url: /erddap/griddap/ncdcOisst21Agg_LonPM180.csv?anom%5B(2026-11-25):1:(2026-11-25)%5D%5B(0.0)%5D%5B(-19.0):2:(1.0)%5D%5B(-86.0):2:(-70.0)%5D (Caused by NewConnectionError(\"HTTPSConnection(host='coastwatch.pfeg.noaa.gov', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\")), reintento 1",
+    "  ncdcOisst21Agg_LonPM180 -> HTTPSConnectionPool(host='coastwatch.pfeg.noaa.gov', port=443): Read timed out. (read timeout=120), reintento 2",
+    "  ncdcOisst21Agg_LonPM180 -> HTTPSConnectionPool(host='coastwatch.pfeg.noaa.gov', port=443): Max retries exceeded with url: /erddap/griddap/ncdcOisst21Agg_LonPM180.csv?anom%5B(2026-11-25):1:(2026-11-25)%5D%5B(0.0)%5D%5B(-19.0):2:(1.0)%5D%5B(-86.0):2:(-70.0)%5D (Caused by NewConnectionError(\"HTTPSConnection(host='coastwatch.pfeg.noaa.gov', port=443): Failed to establish a new connection: [Errno 101] Network is unreachable\")), reintento 3",
+    "Histórico: 46 días guardados."
+   ],
+   "error_final": []
+  },
+  {
+   "paso": "descargar_indicadores.py",
+   "codigo": 0,
+   "ok": true,
+   "parcial": false,
+   "segundos": 77.7,
+   "salida_final": [
+    "noaa_semanal: 2360 filas",
+    "  icen: 921 filas",
+    "  bcrp_sectores: 3810 filas",
+    "  coes_diario: 20 filas",
+    "  coes_mensual: 142 filas"
+   ],
+   "error_final": []
+  },
+  {
+   "paso": "descargar_zonas.py",
+   "codigo": 0,
+   "ok": true,
+   "parcial": false,
+   "segundos": 3.2,
+   "salida_final": [
+    "Lluvia: 952 filas",
+    "Caudal: 672 filas",
+    "  normal de caudal para 24 de 24 ríos",
+    "  normal de lluvia con 30 de 30 años"
+   ],
+   "error_final": []
+  },
+  {
+   "paso": "construir.py",
+   "codigo": 0,
+   "ok": true,
+   "parcial": false,
+   "segundos": 1.0,
+   "salida_final": [
+    "Histórico del mar: 46 días",
+    "  indices.json: 28 KB",
+    "  economia.json: 13 KB",
+    "  regiones.json: 16 KB",
+    "  mar.json: 134 KB",
+    "  picos.json: 26 KB",
+    "  resumen.json: 0 KB",
+    "  zonas.json: 46 KB"
+   ],
+   "error_final": []
+  },
+  {
+   "paso": "noticias.py",
+   "codigo": 0,
+   "ok": true,
+   "parcial": false,
+   "segundos": 1.7,
+   "salida_final": [
+    "RSS: 200 titulares",
+    "40 eventos (13 verificados); radar: {'detectado': 6, 'no detectado': 15, 'fuera de alcance': 14, 'sin pasada': 0, 'sin radar': 5}"
+   ],
+   "error_final": []
+  },
+  {
+   "paso": "metadatos.py",
+   "codigo": 0,
+   "ok": true,
+   "parcial": false,
+   "segundos": 0.3,
+   "salida_final": [
+    "  vigente        mar                último dato 2026-11-24",
+    "  vigente        nino12             último dato 2026-11-18",
+    "  rezagado       icen               último dato 2026-09",
+    "  estimado       lluvia             último dato 2026-11-26",
+    "  estimado       caudal             último dato 2026-11-26",
+    "  estimado       indice_provincial  último dato 2026-11-26",
+    "  vigente        vulnerabilidad     último dato 2019-12-31",
+    "Resumen: {'vigente': 9, 'rezagado': 1, 'no disponible': 0, 'estimado': 6}"
+   ],
+   "error_final": []
+  }
+ ],
+ "ok": true,
+ "fallidos": []
+}
